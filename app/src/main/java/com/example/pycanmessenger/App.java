@@ -1,3 +1,5 @@
+package com.example.pycanmessenger;
+
 import com.parse.Parse;
 import android.app.Application;
 
