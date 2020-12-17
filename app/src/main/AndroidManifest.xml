@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pycanmessenger">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -16,6 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.parse.SERVER_URL"
+            android:value="https://parseapi.back4app.com/" />
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="HRW78F396y8HrbHQI9uIPe9tk2032E8EMed0q12k" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="HUBUNIcnJ9nUtGL76GZAZ3glWMKYYTsO9USf4zUC" />
     </application>
 
 </manifest>
