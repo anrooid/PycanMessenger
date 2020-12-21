@@ -25,7 +25,7 @@ public class ChannelChat extends Fragment {
     private RecyclerView myRecycler;
     private ChatAdapter mAdapter;
     private TextView mText ;
-    private ProgressBar mProg;
+    private ProgressBar mProgress;
 
 
     public ChannelChat(){
@@ -40,7 +40,7 @@ public class ChannelChat extends Fragment {
          View view  = inflater.inflate(R.layout.fragment_channel_chat, container, false);
          myRecycler = view.findViewById(R.id.RV_channel);
          mText = view.findViewById(R.id.Error);
-         mProg = view.findViewById(R.id.loadProg);
+         mProgress = view.findViewById(R.id.loadProg);
          myRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         ParseQuery<ParseObject> objects = ParseQuery.getQuery("Chats");
         objects.whereStartsWith("Name","2");
@@ -48,7 +48,7 @@ public class ChannelChat extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e==null){
-                    mProg.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.GONE);
                     if (objects.size()>0){
                         mAdapter = new ChatAdapter(objects,getContext());
                         myRecycler.setAdapter(mAdapter);

@@ -1,6 +1,8 @@
 package com.example.pycanmessenger;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
@@ -35,19 +39,64 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String name = "" ;
+        String description="";
+        String time = "";
+        boolean seen=false;
+        String profileTxt = "";
+        ParseFile profile;
         ParseObject chat = parseObjects.get(position);
         if (chat.getString("Name")==null) {
             Toast.makeText(mContext,"Error : No Name Found \n please check your network connection",Toast.LENGTH_SHORT).show();
         }else{
             name = chat.getString("Name").substring(1);
+            holder.getaName().setText(name);
         }
-        String description  = chat.getString("Description");
-        String time = chat.getString("Time");
-        boolean seen = chat.getBoolean("Seen");
-        ParseFile avatar = chat.getParseFile("Profile");
+        if (chat.get("Descripton") == null){
 
+        }else {
+            description = chat.getString("Descripton");
+            holder.getaMessage().setText(description);
+        }
+        if (chat.get("Time") == null){
+            holder.getaTime().setText("00:00");
+        }else {
+            time = chat.getString("Time");
+            holder.getaTime().setText(time);
+        }
+        if (chat.get("Seen") == null){
 
-        holder.getaName().setText(name);
+        }else {
+            seen = chat.getBoolean("Seen");
+            holder.getaSeen().setImageResource(seen?1:0);
+        }
+        if (chat.get("Profile") == null){
+            String[] seperated = name.split(" ");
+            if (seperated.length>0){
+                String split = seperated[0].charAt(0) + seperated[1].charAt(0)+"";
+                holder.getaOnprofile().setText(split);
+            }else {
+                String split = name.charAt(0) +"";
+                holder.getaOnprofile().setText(split);
+            }
+        }else {
+            profile = chat.getParseFile("Profile");
+            profile.getDataInBackground(new GetDataCallback() {
+                @Override
+                public void done(byte[] data, ParseException e) {
+                    if (e == null){
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+
+                        holder.getaAvatar().setImageBitmap(bitmap);
+                    }
+                }
+            });
+        }
+        //ParseFile avatar = chat.getParseFile("Profile");
+        //holder.getaName().setText(name);
+        //holder.getaMessage().setText(description);
+        //holder.getaTime().setText(time);
+        //holder.getaSeen().setImageResource(seen?1:0);
+        //holder.getaAvatar().setImageBitmap(avatar);
     }
 
     @Override

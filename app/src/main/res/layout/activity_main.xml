@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blackP"
     tools:context=".MainActivity">
 
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/AppBarLayout"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/blackP" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/AppBarLayout"
@@ -19,8 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blackP"
-            app:titleTextColor="@color/white"
-            />
+            app:titleTextColor="@color/white" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -28,21 +38,9 @@
             android:layout_height="wrap_content"
             android:background="@color/blackP"
             app:tabSelectedTextColor="@color/blueP"
-            app:tabTextColor="#FFFFFF"
-            />
+            app:tabTextColor="#FFFFFF" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/AppBarLayout"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="-3dp"
-        android:background="@color/blackP" />
 
 </RelativeLayout>
