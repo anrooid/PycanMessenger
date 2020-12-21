@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 public class ChannelChat extends Fragment {
 
+    public ChannelChat(){
+
+    }
 
 
     @Override
