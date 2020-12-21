@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/blackP"
             app:titleTextColor="@color/white"
-            app:titleTextAppearance="@style/tool"/>
+            />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -29,7 +29,7 @@
             android:background="@color/blackP"
             app:tabSelectedTextColor="@color/blueP"
             app:tabTextColor="#FFFFFF"
-            app:tabTextAppearance="@style/tab"/>
+            />
 
 
     </com.google.android.material.appbar.AppBarLayout>

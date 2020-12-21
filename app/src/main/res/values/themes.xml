@@ -13,10 +13,5 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-    <style name="tool" parent="@style/Base.TextAppearance.AppCompat.Title">
-        <item name="android:textSize">20sp</item>
-    </style>
-    <style name="tab" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
-        <item name="android:textSize">14sp</item>
-    </style>
+
 </resources>

@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.List;
@@ -14,18 +16,15 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MyViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
 
    List<ParseObject> parseObjects ;
     Context mContext;
-    MainActivity.ChatKind kinds;
 
-    public chatAdapter(List<ParseObject> parseObjects , MainActivity.ChatKind kinds, Context mContext) {
+    public ChatAdapter(List<ParseObject> parseObjects , Context mContext) {
         this.mContext = mContext;
         this.parseObjects = parseObjects;
-        this.kinds= kinds;
     }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,10 +34,20 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-
+        String name = "" ;
         ParseObject chat = parseObjects.get(position);
+        if (chat.getString("Name")==null) {
+            Toast.makeText(mContext,"Error : No Name Found \n please check your network connection",Toast.LENGTH_SHORT).show();
+        }else{
+            name = chat.getString("Name").substring(1);
+        }
+        String description  = chat.getString("Description");
+        String time = chat.getString("Time");
+        boolean seen = chat.getBoolean("Seen");
+        ParseFile avatar = chat.getParseFile("Profile");
 
 
+        holder.getaName().setText(name);
     }
 
     @Override
@@ -56,6 +65,7 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MyViewHolder> 
         private TextView aName;
         private TextView aMessage;
         private TextView aTime;
+        private TextView aOnprofile;
 
         public ImageView getaAvatar() {
             return aAvatar;
@@ -77,6 +87,10 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MyViewHolder> 
             return aTime;
         }
 
+        public TextView getaOnprofile() {
+            return aOnprofile;
+        }
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             aAvatar = itemView.findViewById(R.id.imgAvatar);
@@ -84,6 +98,7 @@ public class chatAdapter extends RecyclerView.Adapter<chatAdapter.MyViewHolder> 
             aMessage = itemView.findViewById(R.id.txtMessege);
             aTime = itemView.findViewById(R.id.txtTime);
             aSeen = itemView.findViewById(R.id.imgSeen);
+            aOnprofile = itemView.findViewById(R.id.Onprofile);
         }
     }
 }

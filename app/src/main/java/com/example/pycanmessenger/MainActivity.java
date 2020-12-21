@@ -9,9 +9,7 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity {
-    public enum ChatKind{
-        PV , GROUP , CHANNEL
-    }
+
     Toolbar toolbar;
     ViewPager viewPager ;
     TabLayout tabLayout;
