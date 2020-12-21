@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:padding="5dp"
+    android:focusable="true">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/purple_700"
-        app:cardBackgroundColor="@color/purple_500"
+        android:padding="5dp"
         app:cardCornerRadius="10000dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +25,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
 
+            android:background="@color/blueP"
             tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.cardview.widget.CardView>
@@ -34,7 +37,6 @@
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-medium"
         android:text="TextView"
-        android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="@+id/cardView" />
@@ -47,8 +49,6 @@
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="0"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="@+id/cardView"
@@ -62,7 +62,6 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif-light"
         android:text="TextView"
-        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +74,6 @@
         android:layout_marginStart="16dp"
         android:fontFamily="sans-serif-light"
         android:text="TextView"
-        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"

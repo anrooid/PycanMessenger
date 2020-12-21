@@ -48,13 +48,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         String profileTxt = "";
         ParseFile profile;
         ParseObject chat = parseObjects.get(position);
-        if (chat.getString("Name") == null) {
+        if (chat.getString("Name") == null) { // analiz name
             Toast.makeText(mContext, "Error : No Name Found \n please check your network connection", Toast.LENGTH_SHORT).show();
         } else {
-            name = chat.getString("Name").substring(1);
+            name = chat.getString("Name").trim().substring(1);
             holder.getaName().setText(name);
         }
-        if (chat.get("Descripton") == null) {
+        if (chat.get("Descripton") == null) { // analiz description
             holder.getaMessage().setText("No Chat Yet");
         } else {
             description = chat.getString("Descripton");
@@ -79,14 +79,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
         }
         if (chat.get("Profile") == null) {
-            String[] seperated = name.split(" ");
-            if (seperated.length > 0) {
-                String split = seperated[0].charAt(0) + seperated[1].charAt(0) + "";
-                holder.getaOnprofile().setText(split);
-            } else {
-                String split = name.charAt(0) + "";
-                holder.getaOnprofile().setText(split);
-            }
+            String c2 ="" ,c1 = String.valueOf(name.charAt(0));
+            if (name.indexOf(" ")!=-1)
+                c2 = String.valueOf(name.charAt(name.indexOf(" ")+1));
+            holder.getaOnprofile().setText(c1+c2);
         } else {
             profile = chat.getParseFile("Profile");
             profile.getDataInBackground(new GetDataCallback() {
@@ -100,12 +96,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                 }
             });
         }
-        //ParseFile avatar = chat.getParseFile("Profile");
-        //holder.getaName().setText(name);
-        //holder.getaMessage().setText(description);
-        //holder.getaTime().setText(time);
-        //holder.getaSeen().setImageResource(seen?1:0);
-        //holder.getaAvatar().setImageBitmap(avatar);
     }
 
     @Override
