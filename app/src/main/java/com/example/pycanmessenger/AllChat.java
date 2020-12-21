@@ -39,7 +39,6 @@ public class AllChat extends Fragment {
         aProgressBar = view.findViewById(R.id.AllProgress);
         allRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         ParseQuery<ParseObject> objects = ParseQuery.getQuery("Chats");
-        //objects.whereStartsWith("Name","2");
         objects.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
