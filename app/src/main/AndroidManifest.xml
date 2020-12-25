@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PycanMessenger">
-        <activity android:name=".AddNew"></activity>
+        <activity android:name=".NewChat"></activity>
+        <activity android:name=".AddNew" />
         <activity android:name=".SelectNew" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -2,11 +2,16 @@ package com.example.pycanmessenger;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +31,6 @@ public class ChannelChat extends Fragment {
     private ChatAdapter mAdapter;
     private TextView mText ;
     private ProgressBar mProgress;
-
 
     public ChannelChat(){
 
@@ -63,5 +67,33 @@ public class ChannelChat extends Fragment {
         });
 
         return view ;
+    }
+    //menu
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+
+        menu.clear();
+        inflater.inflate(R.menu.menu_menu,menu);
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    @Override
+    public void onStart() {
+        setHasOptionsMenu(true);
+        super.onStart();
     }
 }

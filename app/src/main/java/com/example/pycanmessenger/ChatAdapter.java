@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,21 +17,23 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
-import java.security.PrivateKey;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> implements Filterable {
 
     private List<ParseObject> parseObjects;
+    private List<ParseObject> parseObjectsAll;
     private Context mContext;
 
     public ChatAdapter(List<ParseObject> parseObjects, Context mContext) {
         this.mContext = mContext;
         this.parseObjects = parseObjects;
+        this.parseObjectsAll = new ArrayList<>(parseObjects);
     }
 
     @NonNull
@@ -98,12 +102,48 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
     }
 
+    //menu search
     @Override
     public int getItemCount() {
         return parseObjects.size();
     }
 
+    //menu search
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+    Filter filter = new Filter() {
+        //run on background thread
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<ParseObject> filteredList = new ArrayList<>();
+            if (charSequence.toString().isEmpty()){
+                filteredList.addAll(parseObjectsAll);
+            }else {
+                for ( ParseObject  SparseObject : parseObjectsAll){
+                    if (SparseObject.getString("Name").toLowerCase().contains(charSequence.toString().toLowerCase())){
+                        filteredList.add(SparseObject);
+                    }
+                }
+            }
 
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        //runs on ui thread
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            parseObjects.clear();
+            parseObjects.addAll((Collection<? extends ParseObject>) filterResults.values);
+            notifyDataSetChanged();
+
+        }
+    };
+
+//mahdi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView aAvatar;
