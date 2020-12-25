@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".NewChat">
 
@@ -13,26 +12,10 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/newChatToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blueP"
-            app:subtitleTextColor="#FFFFFF"
-            app:title="New Chat"
-            app:titleTextColor="@color/white">
-
-            <ImageButton
-                android:id="@+id/btnNewChat"
-                style="@style/Widget.AppCompat.ImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="270dp"
-                android:background="@color/blueP"
-                android:scaleType="center"
-                android:src="@drawable/ic_checkmark"
-                android:tint="@color/white"
-                android:visibility="visible" />
-
-        </androidx.appcompat.widget.Toolbar>
+            />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,42 +23,37 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        android:background="@color/blackP">
+        android:animateLayoutChanges="true">
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/selectableItemBackground"
             android:padding="5dp"
             app:cardCornerRadius="10000dp"
-            app:layout_constraintBottom_toTopOf="@id/edtDescription"
-            app:layout_constraintEnd_toStartOf="@+id/edtNameChat"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.458">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/blackP"
-                app:srcCompat="@drawable/ic_profile"
-                app:tint="@color/white" />
+                android:background="?attr/selectableItemBackground" />
         </androidx.cardview.widget.CardView>
 
         <EditText
             android:id="@+id/edtNameChat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Chat Name"
             android:inputType="textPersonName"
-            android:textColor="@color/white"
-            android:textColorHint="#93FFFFFF"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,63 +64,54 @@
             android:id="@+id/edtDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="You can provide an optional description for your chat"
-            android:inputType="textPersonName"
-            android:textColor="@color/white"
-            android:textColorHint="#93FFFFFF"
+            android:hint="Description"
+            android:inputType="textImeMultiLine"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/checkSeen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
-
-        <TextView
-            android:id="@+id/txtDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:text="Description :"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/edtDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edtNameChat"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
             app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="Seen"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/checkSeen"
-            app:layout_constraintEnd_toStartOf="@+id/checkSeen"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/checkSeen" />
-
-        <CheckBox
-            android:id="@+id/checkSeen"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
-            android:buttonTint="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView"
+            android:text="you can provide an optional description for your chat"
+            app:layout_constraintEnd_toEndOf="@+id/edtDescription"
+            app:layout_constraintStart_toStartOf="@+id/edtDescription"
             app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
+        <CheckBox
+            android:id="@+id/chkSeen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="273dp" />
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/txtseen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seen"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/chkSeen"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/chkSeen" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="3dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            app:srcCompat="@drawable/ic_icon_feather_camera" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

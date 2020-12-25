@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blackP">
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/myAppBarLayout"
@@ -17,10 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:background="@color/blueP"
-            app:subtitleTextColor="@color/white"
             app:title="Add New"
-            app:titleTextColor="@color/white" />
+            />
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -35,65 +33,59 @@
         android:layout_marginBottom="0dp">
 
         <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Select which one do you want to add . "
+            app:layout_constraintEnd_toEndOf="@+id/txtChannel"
+            app:layout_constraintStart_toStartOf="@+id/txtChannel"
+            app:layout_constraintTop_toBottomOf="@+id/txtChannel" />
+
+        <TextView
             android:id="@+id/txtPv"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:text="  PV"
-            android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/txtGroup"
-            app:layout_constraintEnd_toStartOf="@+id/radioGroup"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txtGroup"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             android:text="  Group"
-            android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/txtChannel"
-            app:layout_constraintEnd_toStartOf="@+id/radioGroup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtPv" />
 
         <TextView
             android:id="@+id/txtChannel"
             android:layout_width="0dp"
-            android:layout_height="52dp"
-            android:text="  Channel"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/txtGroup"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtGroup"
-            app:layout_constraintBottom_toBottomOf="@+id/radioGroup"/>
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/txtChannel"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="  Channel"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RadioButton
-                android:id="@+id/checkPV"
-                android:layout_width="match_parent"
-                android:layout_height="52dp" />
-
-            <RadioButton
-                android:id="@+id/checkGroup"
-                android:layout_width="match_parent"
-                android:layout_height="52dp" />
-
-            <RadioButton
-                android:id="@+id/checkChannel"
-                android:layout_width="match_parent"
-                android:layout_height="52dp" />
-
-        </RadioGroup>
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtGroup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

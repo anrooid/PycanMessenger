@@ -48,7 +48,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         String name = "";
         String description = "";
         String time = "";
-        boolean seen = false;
         String profileTxt = "";
         ParseFile profile;
         ParseObject chat = parseObjects.get(position);
@@ -70,17 +69,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             time = chat.getString("Time");
             holder.getaTime().setText(time);
         }
-        if (chat.get("Seen") == null) {
-
-        } else {
-            seen = chat.getBoolean("Seen");
-            if (seen) {
+        if (chat.get("Seen") != null) {
+            if (chat.getBoolean("Seen")) {
                 holder.getaSeen().setVisibility(View.VISIBLE);
             } else {
                 holder.getaSeen().setVisibility(View.GONE);
             }
-
-
         }
         if (chat.get("Profile") == null) {
             String c2 ="" ,c1 = String.valueOf(name.charAt(0));
