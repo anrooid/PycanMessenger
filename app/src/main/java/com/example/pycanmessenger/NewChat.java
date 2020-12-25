@@ -100,11 +100,12 @@ public class NewChat extends AppCompatActivity {
                 txtseen.setVisibility(View.VISIBLE);checkSeen.setVisibility(View.VISIBLE);
             }
         }
-
-
-        // create new chat
-
-
+        ////////////////////////
+        ///////////////////////
+        //////////////////////      FIX GETING PICTURE FROM STOREG
+        /////////////////////
+        ////////////////////
+        ///////////////////
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
