@@ -127,14 +127,12 @@ public class NewChat extends AppCompatActivity {
 
     private void getChosenImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
-        intent.setType("image/*");
         intent.putExtra("crop", "true");
         intent.putExtra("outputX", 200);
         intent.putExtra("outputY", 200);
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         intent.putExtra("scale", true);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, 2000);
         imgCamera.setVisibility(View.INVISIBLE);
 
@@ -232,9 +230,5 @@ public class NewChat extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    public byte[] extractBytes(Bitmap bitmap) {
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//        return stream.toByteArray();
-//    }
+//   
 }
