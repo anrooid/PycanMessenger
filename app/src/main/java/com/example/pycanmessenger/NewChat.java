@@ -31,11 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.sql.Time;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -51,7 +53,7 @@ public class NewChat extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView txtseen;
     Boolean PV, Group, Channel;
-    private ImageView imgProfile;
+    private ImageView imgProfile , imgCamera;
     EditText edtNameChat, edtDescription;
     Bitmap receivedImageBitmap;
 
@@ -68,6 +70,7 @@ public class NewChat extends AppCompatActivity {
         checkSeen = findViewById(R.id.chkSeen);
         toolbar = findViewById(R.id.newChatToolbar);
         imgProfile = findViewById(R.id.imgProfile);
+        imgCamera = findViewById(R.id.imgCamera);
         edtNameChat = findViewById(R.id.edtNameChat);
         edtDescription = findViewById(R.id.edtDescription);
         txtseen = findViewById(R.id.txtseen);
@@ -123,8 +126,19 @@ public class NewChat extends AppCompatActivity {
     }
 
     private void getChosenImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+        intent.setType("image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("outputX", 200);
+        intent.putExtra("outputY", 200);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("scale", true);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, 2000);
+        imgCamera.setVisibility(View.INVISIBLE);
+
+
     }
 
     @Override
@@ -191,8 +205,13 @@ public class NewChat extends AppCompatActivity {
             Chats.put("Descripton", edtDescription.getText().toString());
             if (PV)
                 Chats.put("Seen", checkSeen.isChecked());
-            if (receivedImageBitmap != null)
-                Chats.put("Profile", extractBytes(receivedImageBitmap));
+            if (receivedImageBitmap != null){
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] bytes = stream.toByteArray();
+                ParseFile parseFile = new ParseFile("img.png" , bytes);
+                Chats.put("Profile", parseFile);}
+
             Chats.put("Time", ft.format(time).toString());
             Chats.saveInBackground(new SaveCallback() {
                 @Override
@@ -213,9 +232,9 @@ public class NewChat extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public byte[] extractBytes(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
-    }
+//    public byte[] extractBytes(Bitmap bitmap) {
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        return stream.toByteArray();
+//    }
 }
