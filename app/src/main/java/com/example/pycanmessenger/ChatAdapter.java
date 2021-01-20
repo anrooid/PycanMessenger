@@ -88,7 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                 public void done(byte[] data, ParseException e) {
                     if (e == null) {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-
+                        holder.getaOnprofile().setText("");
                         holder.getaAvatar().setImageBitmap(bitmap);
                     }
                 }
