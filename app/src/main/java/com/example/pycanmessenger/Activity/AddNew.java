@@ -1,17 +1,12 @@
-package com.example.pycanmessenger;
+package com.example.pycanmessenger.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Checkable;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toolbar;
+
+import com.example.pycanmessenger.R;
 
 public class AddNew extends AppCompatActivity {
 

@@ -1,10 +1,15 @@
-package com.example.pycanmessenger;
+package com.example.pycanmessenger.Adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.example.pycanmessenger.Fregments.AllChat;
+import com.example.pycanmessenger.Fregments.ChannelChat;
+import com.example.pycanmessenger.Fregments.GroupChat;
+import com.example.pycanmessenger.Fregments.PvChat;
 
 public class TabAdapter extends FragmentPagerAdapter {
     public TabAdapter(@NonNull FragmentManager fm) {

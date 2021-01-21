@@ -1,4 +1,4 @@
-package com.example.pycanmessenger;
+package com.example.pycanmessenger.Fregments;
 
 import android.os.Bundle;
 
@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.pycanmessenger.Adapters.ChatAdapter;
+import com.example.pycanmessenger.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

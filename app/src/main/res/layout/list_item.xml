@@ -26,7 +26,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
 
-            android:background="@color/blueP"
+            android:background="@color/blue"
+            android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
 
     </androidx.cardview.widget.CardView>

@@ -1,23 +1,17 @@
-package com.example.pycanmessenger;
+package com.example.pycanmessenger.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
+import com.example.pycanmessenger.Adapters.TabAdapter;
+import com.example.pycanmessenger.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.zip.Inflater;
-
-import static com.example.pycanmessenger.R.menu.menu_menu;
 
 public class MainActivity extends AppCompatActivity {
 
