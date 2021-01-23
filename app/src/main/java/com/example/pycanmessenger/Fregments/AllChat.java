@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,10 +30,13 @@ import java.util.List;
 public class AllChat extends Fragment {
     private RecyclerView allRecycler;
     private ChatAdapter aAdapter;
-    private TextView errorAll;
     private ProgressBar aProgressBar;
     private ChatAdapter chatAdapter;
     List<ParseObject> parseObjects;
+
+    //errors
+    private TextView erTitle , erText , erHelp ;
+    private ImageView erLogo;
 
     public AllChat(){
 
@@ -42,9 +46,11 @@ public class AllChat extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_all_chat, container, false);
-
         allRecycler = view.findViewById(R.id.RV_All);
-        errorAll = view.findViewById(R.id.errorAll);
+        erLogo = view.findViewById(R.id.errorLogo);
+        erTitle = view.findViewById(R.id.errorTitle);
+        erText = view.findViewById(R.id.errorText);
+        erHelp = view.findViewById(R.id.errorHelp);
         aProgressBar = view.findViewById(R.id.AllProgress);
         allRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         ParseQuery<ParseObject> objects = ParseQuery.getQuery("Chats");
@@ -58,7 +64,10 @@ public class AllChat extends Fragment {
                         allRecycler.setAdapter(aAdapter);
                     }else {
                         // show a text to user that no chats yet !
-                        errorAll.setVisibility(View.VISIBLE);
+                        erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
+                        erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
+                        erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
+                        erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
                 }else {
                     e.printStackTrace();

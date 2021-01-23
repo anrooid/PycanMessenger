@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ChannelChat">
+    >
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -17,19 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/Error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:alpha=".7"
-        android:fontFamily="sans-serif-black"
-        android:text="No Chats Yet"
-        android:textSize="24sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
     <ProgressBar
         android:id="@+id/loadProg"
@@ -40,5 +28,57 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/errorHelp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="80dp"
+        android:fontFamily="monospace"
+        android:text="Here"
+        android:textColor="?attr/colorSecondary"
+        android:translationY="5dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/errorLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/loadProg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/loadProg"
+        app:srcCompat="@drawable/ic_logo" />
+
+    <TextView
+        android:id="@+id/errorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Pycan Massenger"
+        android:textColor="?attr/colorSecondary"
+        android:textStyle="bold"
+        android:translationY="5dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/errorLogo"
+        app:layout_constraintStart_toStartOf="@+id/errorLogo"
+        app:layout_constraintTop_toBottomOf="@+id/errorLogo" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="No Chat Yet \n you can create a new one\n with + "
+        android:textColor="?attr/colorSecondary"
+        android:translationY="5dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/errorTitle"
+        app:layout_constraintStart_toStartOf="@+id/errorTitle"
+        app:layout_constraintTop_toBottomOf="@+id/errorTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

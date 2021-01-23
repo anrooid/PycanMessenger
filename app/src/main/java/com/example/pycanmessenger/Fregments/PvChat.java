@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -28,9 +29,12 @@ import java.util.List;
 
 public class PvChat extends Fragment {
     private RecyclerView pRecycle_View;
-    private TextView errorPV;
     private ProgressBar pProgressBar;
     private ChatAdapter pChatAdapter;
+
+    //errors
+    private TextView erTitle , erText , erHelp ;
+    private ImageView erLogo;
 
     public PvChat(){
 
@@ -43,7 +47,10 @@ public class PvChat extends Fragment {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_pv_chat, container, false);
         pRecycle_View = view.findViewById(R.id.RV_pvChat);
-        errorPV = view.findViewById(R.id.errorPV);
+        erLogo = view.findViewById(R.id.errorLogo);
+        erTitle = view.findViewById(R.id.errorTitle);
+        erText = view.findViewById(R.id.errorText);
+        erHelp = view.findViewById(R.id.errorHelp);
         pProgressBar = view.findViewById(R.id.PProgress);
         pRecycle_View.setLayoutManager(new LinearLayoutManager(getContext()));
         ParseQuery<ParseObject> object = ParseQuery.getQuery("Chats");
@@ -57,7 +64,10 @@ public class PvChat extends Fragment {
                         pChatAdapter= new ChatAdapter(objects,getContext());
                         pRecycle_View.setAdapter(pChatAdapter);
                     }else {
-                        errorPV.setVisibility(View.VISIBLE);
+                        erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
+                        erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
+                        erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
+                        erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
 
                 }else {

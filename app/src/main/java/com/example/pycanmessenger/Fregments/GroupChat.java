@@ -30,10 +30,12 @@ import java.util.List;
 public class GroupChat extends Fragment {
 
     private RecyclerView gRecyclerView;
-    private TextView gError;
     private ProgressBar gProgressBar;
     private ChatAdapter gAdapter;
 
+    //errors
+    private TextView erTitle , erText , erHelp ;
+    private ImageView erLogo;
 
     public GroupChat(){
 
@@ -44,7 +46,10 @@ public class GroupChat extends Fragment {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.fragment_group_chat, container, false);
         gRecyclerView = view.findViewById(R.id.RV_Group);
-        gError = view.findViewById(R.id.errorGroup);
+        erLogo = view.findViewById(R.id.errorLogo);
+        erTitle = view.findViewById(R.id.errorTitle);
+        erText = view.findViewById(R.id.errorText);
+        erHelp = view.findViewById(R.id.errorHelp);
         gProgressBar = view.findViewById(R.id.gProgress);
         gRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ParseQuery<ParseObject> object = ParseQuery.getQuery("Chats");
@@ -58,7 +63,10 @@ public class GroupChat extends Fragment {
                         gAdapter= new ChatAdapter(objects,getContext());
                         gRecyclerView.setAdapter(gAdapter);
                     }else {
-                        gError.setVisibility(View.VISIBLE);
+                        erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
+                        erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
+                        erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
+                        erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
 
                 }else {

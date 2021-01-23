@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -31,8 +32,11 @@ public class ChannelChat extends Fragment {
 
     private RecyclerView myRecycler;
     private ChatAdapter mAdapter;
-    private TextView mText ;
     private ProgressBar mProgress;
+
+    //errors
+    private TextView erTitle , erText , erHelp ;
+    private ImageView erLogo;
 
     public ChannelChat(){
 
@@ -45,7 +49,10 @@ public class ChannelChat extends Fragment {
         // Inflate the layout for this fragment
          View view  = inflater.inflate(R.layout.fragment_channel_chat, container, false);
          myRecycler = view.findViewById(R.id.RV_channel);
-         mText = view.findViewById(R.id.Error);
+        erLogo = view.findViewById(R.id.errorLogo);
+        erTitle = view.findViewById(R.id.errorTitle);
+        erText = view.findViewById(R.id.errorText);
+        erHelp = view.findViewById(R.id.errorHelp);
          mProgress = view.findViewById(R.id.loadProg);
          myRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         ParseQuery<ParseObject> objects = ParseQuery.getQuery("Chats");
@@ -60,7 +67,10 @@ public class ChannelChat extends Fragment {
                         myRecycler.setAdapter(mAdapter);
                     }else {
                         // show a text to user that no chats yet !
-                        mText.setVisibility(View.VISIBLE);
+                        erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
+                        erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
+                        erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
+                        erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
                 }else {
                     e.printStackTrace();

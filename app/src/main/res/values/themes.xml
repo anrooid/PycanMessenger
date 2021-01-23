@@ -2,15 +2,38 @@
     <!-- Base application theme. -->
     <style name="Theme.PycanMessenger" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/white</item>
-        <item name="colorSecondaryVariant">@color/white</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/light_ac</item>
+        <item name="colorSecondaryVariant">@color/light_ac</item>
+        <item name="colorOnSecondary">@color/light_ac</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black_hint</item>
+    </style>
+    <style name="Theme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/light_ac</item>
+        <item name="tint">@color/white</item>
+    </style>
+    <style name="Theme.Tab" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:background">@color/white</item>
+        <item name="tabIndicator">@drawable/tab_indicator</item>
+        <item name="tabTextColor">@color/black</item>
+        <item name="tabSelectedTextColor">@color/light_ac</item>
+        <item name="tabIndicatorFullWidth">false</item>
+        <item name="tabIndicatorGravity">bottom</item>
+        <item name="tabIndicatorColor">@color/light_ac</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabRippleColor">@color/white</item>
+    </style>
+    <style name="Theme.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/white</item>
     </style>
 </resources>
