@@ -43,8 +43,8 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="Description"
+            android:inputType="textMultiLine|textImeMultiLine"
             android:maxLength="100"
-            android:inputType="textImeMultiLine"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/edtNameChat"
             app:layout_constraintStart_toStartOf="@+id/cardView"
@@ -102,13 +102,10 @@
             android:id="@+id/txtCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
 
-            android:text=""
             app:layout_constraintBottom_toBottomOf="@+id/edtDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edtDescription"
-            app:layout_constraintVertical_bias="0.526" />
+            app:layout_constraintEnd_toEndOf="@+id/edtDescription"
+            app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"

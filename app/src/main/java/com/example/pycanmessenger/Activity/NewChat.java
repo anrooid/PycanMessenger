@@ -8,14 +8,18 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pycanmessenger.Models.App;
 import com.example.pycanmessenger.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -79,10 +84,17 @@ public class NewChat extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = s.toString().length();
+                txtCounter.setText(length+"/100");
+                if (length==100){// vibrate ~!
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        v.vibrate(500);
+                    }
+                }
 
-                String text = edtDescription.getText().toString();
-                int symbol = text.length();
-                txtCounter.setText(symbol+"/100");
             }
 
             @Override
@@ -122,7 +134,7 @@ public class NewChat extends AppCompatActivity {
         //////////////////////      FIX GETING PICTURE FROM STOREG
         /////////////////////
         ////////////////////
-        ///////////////////
+        /////////////////// Todo : fix photo picker
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
