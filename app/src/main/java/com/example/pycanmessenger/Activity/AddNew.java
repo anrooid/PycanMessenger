@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.pycanmessenger.R;
 
 public class AddNew extends AppCompatActivity {
 
+
+    private TextView Pv , Group , Channel ;
 
 
     @Override
@@ -17,6 +20,9 @@ public class AddNew extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new);
 
+        Pv = findViewById(R.id.txtPv);
+        Group = findViewById(R.id.txtChannel);
+        Channel = findViewById(R.id.txtGroup);
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -24,13 +30,16 @@ public class AddNew extends AppCompatActivity {
                 Intent intent = new Intent(AddNew.this , NewChat.class);
                 switch (v.getId()){
                     case R.id.txtGroup :
-                        intent.putExtra("prefixG", "prefixG");
+                        Pv.setVisibility(View.GONE); Channel.setVisibility(View.GONE);
+                        intent.putExtra("prefixG", "Group");
                         break;
                     case R.id.txtChannel :
-                        intent.putExtra("prefixC", "prefixC");
+                        Pv.setVisibility(View.GONE); Group.setVisibility(View.GONE);
+                        intent.putExtra("prefixC", "Channel");
                         break;
                     case R.id.txtPv :
-                        intent.putExtra("prefixP", "prefixP");
+                        Group.setVisibility(View.GONE); Channel.setVisibility(View.GONE);
+                        intent.putExtra("prefixP", "Pv");
                         break;
                 }
                 startActivity(intent);
@@ -38,9 +47,9 @@ public class AddNew extends AppCompatActivity {
             }
         };
 
-        findViewById(R.id.txtPv).setOnClickListener(clickListener);
-        findViewById(R.id.txtChannel).setOnClickListener(clickListener);
-        findViewById(R.id.txtGroup).setOnClickListener(clickListener);
+        Pv.setOnClickListener(clickListener);
+        Channel.setOnClickListener(clickListener);
+        Group.setOnClickListener(clickListener);
 
 
     }

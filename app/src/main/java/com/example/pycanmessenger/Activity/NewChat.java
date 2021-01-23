@@ -60,12 +60,7 @@ public class NewChat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
 
-        PV = false;
-        Group = false;
-        Channel = false;
         checkSeen = findViewById(R.id.chkSeen);
         toolbar = findViewById(R.id.newChatToolbar);
         imgProfile = findViewById(R.id.imgProfile);
@@ -102,38 +97,23 @@ public class NewChat extends AppCompatActivity {
 
             }
         });
-
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
         //pv OR group OR channel
         if (bundle != null) {
+
             String dataC = bundle.getString("prefixC");
             String dataG = bundle.getString("prefixG");
             String dataPv = bundle.getString("prefixP");
-
-            if (dataC == bundle.getString("prefixC", "prefixC")) {
-                Channel = true;
-                PV = false;
-                Group = false;
-                setTitle("New Channel");
-
-            } else if (dataG == bundle.getString("prefixG", "prefixG")) {
-                Group = true;
-                PV = false;
-                Channel = false;
-                setTitle("New Group");
-
-            } else if (dataPv == bundle.getString("prefixP", "prefixP")) {
-                PV = true;
-                Group = false;
-                Channel = false;
-                setTitle("New PV");
+            String s;
+            if (dataC != null){ s = dataC; Channel = true; }
+            else if (dataG != null) { s = dataG; Group = true; }
+            else  {s = dataPv; PV = true;
                 txtseen.setVisibility(View.VISIBLE);checkSeen.setVisibility(View.VISIBLE);
             }
+            setTitle("New "+s);
         }
-        ////////////////////////
-        ///////////////////////
-        //////////////////////      FIX GETING PICTURE FROM STOREG
-        /////////////////////
-        ////////////////////
+
         /////////////////// Todo : fix photo picker
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,16 +133,7 @@ public class NewChat extends AppCompatActivity {
 
     private void getChosenImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
-        intent.putExtra("crop", "true");
-        intent.putExtra("outputX", 200);
-        intent.putExtra("outputY", 200);
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("scale", true);
         startActivityForResult(intent, 2000);
-        imgCamera.setVisibility(View.INVISIBLE);
-
-
     }
 
     @Override
@@ -193,7 +164,9 @@ public class NewChat extends AppCompatActivity {
                     String picturePath = cursor.getString(columnIndex);
                     cursor.close();
                     receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
+                    // onpen a new activity ! in order to edit ! Crop Fillter
                     imgProfile.setImageBitmap(receivedImageBitmap);
+                    imgCamera.setVisibility(View.INVISIBLE);
                 } catch (Exception e) {
 
                 }
