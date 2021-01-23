@@ -17,6 +17,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +48,7 @@ public class NewChat extends AppCompatActivity {
     Boolean PV, Group, Channel;
     private ImageView imgProfile , imgCamera;
     EditText edtNameChat, edtDescription;
+    TextView txtCounter;
     Bitmap receivedImageBitmap;
 
     @Override
@@ -64,9 +67,29 @@ public class NewChat extends AppCompatActivity {
         imgCamera = findViewById(R.id.imgCamera);
         edtNameChat = findViewById(R.id.edtNameChat);
         edtDescription = findViewById(R.id.edtDescription);
+        txtCounter = findViewById(R.id.txtCounter);
         txtseen = findViewById(R.id.txtseen);
         setSupportActionBar(toolbar);
 
+        edtDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String text = edtDescription.getText().toString();
+                int symbol = text.length();
+                txtCounter.setText(symbol+"/100");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         //pv OR group OR channel
         if (bundle != null) {

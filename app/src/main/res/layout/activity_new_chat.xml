@@ -27,6 +27,89 @@
         android:animateLayoutChanges="true">
 
 
+        <CheckBox
+            android:id="@+id/chkSeen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <EditText
+            android:id="@+id/edtDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="Description"
+            android:maxLength="100"
+            android:inputType="textImeMultiLine"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/edtNameChat"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+        <EditText
+            android:id="@+id/edtNameChat"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:hint="Chat Name"
+            android:inputType="textPersonName"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+        <ImageView
+            android:id="@+id/imgCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="3dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="@+id/cardView"
+            app:layout_constraintStart_toStartOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            app:srcCompat="@drawable/ic_icon_feather_camera" />
+
+        <TextView
+            android:id="@+id/txtseen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Seen"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/chkSeen"
+            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/chkSeen" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:alpha=".7"
+            android:text="you can provide an optional description for your chat"
+            app:layout_constraintEnd_toEndOf="@+id/edtDescription"
+            app:layout_constraintStart_toStartOf="@+id/edtDescription"
+            app:layout_constraintTop_toBottomOf="@+id/edtDescription" />
+
+        <TextView
+            android:id="@+id/txtCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="@+id/edtDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtDescription"
+            app:layout_constraintVertical_bias="0.526" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="80dp"
@@ -43,80 +126,9 @@
                 android:id="@+id/imgProfile"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:background="?attr/colorPrimary"
-                />
+                android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
-
-        <EditText
-            android:id="@+id/edtNameChat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:hint="Chat Name"
-            android:inputType="textPersonName"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cardView"
-            app:layout_constraintTop_toTopOf="@+id/cardView" />
-
-        <EditText
-            android:id="@+id/edtDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:hint="Description"
-            android:inputType="textImeMultiLine"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/edtNameChat"
-            app:layout_constraintStart_toStartOf="@+id/cardView"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="you can provide an optional description for your chat"
-            app:layout_constraintEnd_toEndOf="@+id/edtDescription"
-            app:layout_constraintStart_toStartOf="@+id/edtDescription"
-            app:layout_constraintTop_toBottomOf="@+id/edtDescription"
-            android:alpha=".7"
-            />
-
-        <CheckBox
-            android:id="@+id/chkSeen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <TextView
-            android:id="@+id/txtseen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Seen"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/chkSeen"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="@+id/chkSeen" />
-
-        <ImageView
-            android:id="@+id/imgCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="3dp"
-            app:layout_constraintBottom_toBottomOf="@+id/cardView"
-            app:layout_constraintEnd_toEndOf="@+id/cardView"
-            app:layout_constraintStart_toStartOf="@+id/cardView"
-            app:layout_constraintTop_toTopOf="@+id/cardView"
-            app:srcCompat="@drawable/ic_icon_feather_camera" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
