@@ -1,11 +1,5 @@
 package com.example.pycanmessenger.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,7 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pycanmessenger.Models.App;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+
 import com.example.pycanmessenger.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -191,7 +189,10 @@ public class NewChat extends AppCompatActivity {
             SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
             ParseObject Chats = new ParseObject("Chats");
             //prefix
-            if (PV) {
+            if (edtNameChat.getText().toString().equals("")){
+                edtNameChat.setError("set name");
+
+            }if (PV) {
                 Chats.put("Name", "0" + edtNameChat.getText().toString());
             } else if (Group) {
                 Chats.put("Name", "1" + edtNameChat.getText().toString());
