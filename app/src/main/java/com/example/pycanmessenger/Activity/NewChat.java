@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 
+import com.example.pycanmessenger.Models.BitMapHolder;
 import com.example.pycanmessenger.R;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -49,7 +50,7 @@ public class NewChat extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView txtseen;
     Boolean PV, Group, Channel;
-    private ImageView imgProfile , imgCamera;
+    private ImageView imgProfile, imgCamera;
     EditText edtNameChat, edtDescription;
     TextView txtCounter;
     Bitmap receivedImageBitmap;
@@ -78,8 +79,8 @@ public class NewChat extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.toString().length();
-                txtCounter.setText(length+"/100");
-                if (length==100){// vibrate ~!
+                txtCounter.setText(length + "/100");
+                if (length == 100) {// vibrate ~!
                     Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -104,12 +105,19 @@ public class NewChat extends AppCompatActivity {
             String dataG = bundle.getString("prefixG");
             String dataPv = bundle.getString("prefixP");
             String s;
-            if (dataC != null){ s = dataC; Channel = true; }
-            else if (dataG != null) { s = dataG; Group = true; }
-            else  {s = dataPv; PV = true;
-                txtseen.setVisibility(View.VISIBLE);checkSeen.setVisibility(View.VISIBLE);
+            if (dataC != null) {
+                s = dataC;
+                Channel = true;
+            } else if (dataG != null) {
+                s = dataG;
+                Group = true;
+            } else {
+                s = dataPv;
+                PV = true;
+                txtseen.setVisibility(View.VISIBLE);
+                checkSeen.setVisibility(View.VISIBLE);
             }
-            setTitle("New "+s);
+            setTitle("New " + s);
         }
 
         /////////////////// Todo : fix photo picker
@@ -130,7 +138,7 @@ public class NewChat extends AppCompatActivity {
     }
 
     private void getChosenImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 2000);
     }
 
@@ -163,14 +171,26 @@ public class NewChat extends AppCompatActivity {
                     cursor.close();
                     receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
                     // onpen a new activity ! in order to edit ! Crop Fillter
-                    imgProfile.setImageBitmap(receivedImageBitmap);
-                    imgCamera.setVisibility(View.INVISIBLE);
-                } catch (Exception e) {
+                    BitMapHolder.getBitMapHolder().setBitmap(receivedImageBitmap);
+                    Intent intent = new Intent(NewChat.this, EditText.class);
 
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
-
+        if (resultCode == 3000) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    //BitMapHolder.getBitMapHolder().getBitmap();
+                    imgProfile.setImageBitmap(BitMapHolder.getBitMapHolder().getBitmap());
+                    imgCamera.setVisibility(View.INVISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -189,10 +209,11 @@ public class NewChat extends AppCompatActivity {
             SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
             ParseObject Chats = new ParseObject("Chats");
             //prefix
-            if (edtNameChat.getText().toString().equals("")){
+            if (edtNameChat.getText().toString().equals("")) {
                 edtNameChat.setError("set name");
 
-            }if (PV) {
+            }
+            if (PV) {
                 Chats.put("Name", "0" + edtNameChat.getText().toString());
             } else if (Group) {
                 Chats.put("Name", "1" + edtNameChat.getText().toString());
@@ -202,12 +223,26 @@ public class NewChat extends AppCompatActivity {
             Chats.put("Descripton", edtDescription.getText().toString());
             if (PV)
                 Chats.put("Seen", checkSeen.isChecked());
-            if (receivedImageBitmap != null){
+//            if (receivedImageBitmap != null){
+//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                byte[] bytes = stream.toByteArray();
+//                ParseFile parseFile = new ParseFile("img.png" , bytes);
+//                Chats.put("Profile", parseFile);
+//            }
+            if (BitMapHolder.getBitMapHolder().getBitmap() != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                BitMapHolder.getBitMapHolder().getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] bytes = stream.toByteArray();
+                ParseFile parseFile = new ParseFile("img.png", bytes);
+                Chats.put("Profile", parseFile);
+            } else {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bytes = stream.toByteArray();
-                ParseFile parseFile = new ParseFile("img.png" , bytes);
-                Chats.put("Profile", parseFile);}
+                ParseFile parseFile = new ParseFile("img.png", bytes);
+                Chats.put("Profile", parseFile);
+            }
 
             Chats.put("Time", ft.format(time).toString());
             Chats.saveInBackground(new SaveCallback() {
