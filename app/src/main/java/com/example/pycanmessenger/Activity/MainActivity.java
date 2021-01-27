@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(tabAdapter);
 
         // go to activity AddNew
+        // Todo : open addnew by the name of shown fregment
+        // all - > add new
+        // pv , group , channel - > new chat
         fab = findViewById(R.id.fabAddNewChat);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

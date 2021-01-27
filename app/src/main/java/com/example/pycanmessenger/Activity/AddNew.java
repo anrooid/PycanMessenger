@@ -21,8 +21,9 @@ public class AddNew extends AppCompatActivity {
         setContentView(R.layout.activity_add_new);
 
         Pv = findViewById(R.id.txtPv);
-        Group = findViewById(R.id.txtChannel);
-        Channel = findViewById(R.id.txtGroup);
+        Channel = findViewById(R.id.txtChannel);
+        Group = findViewById(R.id.txtGroup);
+
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @Override
@@ -54,4 +55,9 @@ public class AddNew extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        Pv.setVisibility(View.VISIBLE); Group.setVisibility(View.VISIBLE); Channel.setVisibility(View.VISIBLE);
+        super.onResume();
+    }
 }

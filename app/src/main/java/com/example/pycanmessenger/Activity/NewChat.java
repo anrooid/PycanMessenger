@@ -54,6 +54,7 @@ public class NewChat extends AppCompatActivity {
     EditText edtNameChat, edtDescription;
     TextView txtCounter;
     Bitmap receivedImageBitmap;
+    Uri selectedImage ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,6 @@ public class NewChat extends AppCompatActivity {
             setTitle("New " + s);
         }
 
-        /////////////////// Todo : fix photo picker
         imgProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,7 +161,7 @@ public class NewChat extends AppCompatActivity {
         if (requestCode == 2000) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    Uri selectedImage = data.getData();
+                     selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(selectedImage, filePathColumn,
                             null, null, null);
@@ -172,9 +172,8 @@ public class NewChat extends AppCompatActivity {
                     receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
                     // onpen a new activity ! in order to edit ! Crop Fillter
                     BitMapHolder.getBitMapHolder().setBitmap(receivedImageBitmap);
-                    Intent intent = new Intent(NewChat.this, EditText.class);
-
-
+                    Intent intent = new Intent(NewChat.this, ProfileEditor.class);
+                    startActivityForResult(intent, 3000);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -184,7 +183,8 @@ public class NewChat extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     //BitMapHolder.getBitMapHolder().getBitmap();
-                    imgProfile.setImageBitmap(BitMapHolder.getBitMapHolder().getBitmap());
+                    receivedImageBitmap= BitMapHolder.getBitMapHolder().getBitmap();
+                    imgProfile.setImageBitmap(receivedImageBitmap);
                     imgCamera.setVisibility(View.INVISIBLE);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -209,9 +209,9 @@ public class NewChat extends AppCompatActivity {
             SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
             ParseObject Chats = new ParseObject("Chats");
             //prefix
+            // Todo : add an on change validator !
             if (edtNameChat.getText().toString().equals("")) {
                 edtNameChat.setError("set name");
-
             }
             if (PV) {
                 Chats.put("Name", "0" + edtNameChat.getText().toString());
@@ -220,31 +220,19 @@ public class NewChat extends AppCompatActivity {
             } else if (Channel) {
                 Chats.put("Name", "2" + edtNameChat.getText().toString());
             }
+            // Todo : add an on change validator in order to handel enter !
             Chats.put("Descripton", edtDescription.getText().toString());
             if (PV)
                 Chats.put("Seen", checkSeen.isChecked());
-//            if (receivedImageBitmap != null){
-//                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//                byte[] bytes = stream.toByteArray();
-//                ParseFile parseFile = new ParseFile("img.png" , bytes);
-//                Chats.put("Profile", parseFile);
-//            }
-            if (BitMapHolder.getBitMapHolder().getBitmap() != null) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                BitMapHolder.getBitMapHolder().getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] bytes = stream.toByteArray();
-                ParseFile parseFile = new ParseFile("img.png", bytes);
-                Chats.put("Profile", parseFile);
-            } else {
+            if (receivedImageBitmap != null ) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bytes = stream.toByteArray();
                 ParseFile parseFile = new ParseFile("img.png", bytes);
                 Chats.put("Profile", parseFile);
             }
-
             Chats.put("Time", ft.format(time).toString());
+            // Todo : fix the time delay for uploading profile !
             Chats.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {

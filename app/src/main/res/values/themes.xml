@@ -21,6 +21,7 @@
     <style name="Theme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/light_ac</item>
         <item name="tint">@color/white</item>
+        <item name="rippleColor">@color/white_hint</item>
     </style>
     <style name="Theme.Tab" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:background">@color/white</item>

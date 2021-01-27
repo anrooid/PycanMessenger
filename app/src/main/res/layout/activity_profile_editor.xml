@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ProfileEditor">
+
+
+    <com.theartofdev.edmodo.cropper.CropImageView
+        android:id="@+id/img_edit"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cropAspectRatioX="5"
+        app:cropAspectRatioY="5"
+        app:cropFixAspectRatio="true"
+        app:cropScaleType="centerCrop"
+        app:cropShape="oval"
+        app:layout_constraintBottom_toBottomOf="@+id/gradiant_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/gradiant_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+        app:srcCompat="@drawable/gradiant_editer_back" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        style="@style/Theme.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_checkmark" />
+
+    <ImageView
+        android:id="@+id/img_flip"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/img_rotate"
+        app:layout_constraintTop_toTopOf="@id/gradiant_back"
+        app:srcCompat="@drawable/ic_flip"
+         />
+
+
+    <ImageView
+        android:id="@+id/img_rotate"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_rotate"
+        app:layout_constraintLeft_toRightOf="@id/img_flip"
+        app:layout_constraintRight_toLeftOf="@id/img_filter"
+        app:layout_constraintTop_toTopOf="@id/gradiant_back"
+        android:layout_marginLeft="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
+         />
+
+    <ImageView
+        android:id="@+id/img_filter"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_filter"
+        app:layout_constraintLeft_toRightOf="@id/img_rotate"
+        app:layout_constraintTop_toTopOf="@id/gradiant_back"
+        android:layout_marginLeft="64dp"
+        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
+         />
+</androidx.constraintlayout.widget.ConstraintLayout>

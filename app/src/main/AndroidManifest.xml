@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PycanMessenger">
-        <activity android:name=".Activity.EditPicture"></activity>
+        <activity android:name=".Activity.ProfileEditor"></activity>
         <activity android:name=".Activity.NewChat" />
         <activity android:name=".Activity.AddNew" />
         <activity android:name=".Activity.MainActivity">
