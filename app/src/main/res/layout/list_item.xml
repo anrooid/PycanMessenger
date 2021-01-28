@@ -51,7 +51,6 @@
         android:elevation="3dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:text="0"
         android:textSize="18sp"
         android:textColor="?attr/colorSecondary"
         app:layout_constraintBottom_toBottomOf="@+id/cardView"

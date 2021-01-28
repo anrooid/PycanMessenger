@@ -89,7 +89,7 @@ public class NewChat extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 for(int i = s.length()-1; i >= 0; i--){
                     if(s.charAt(i) == '\n'){
-                        vibrate(); Toast.makeText(NewChat.this , "you can not presse enter key", Toast.LENGTH_SHORT).show();
+                        vibrate(); Toast.makeText(NewChat.this , "you can not press enter key", Toast.LENGTH_SHORT).show();
                         s.delete(i, i + 1);
                         return;
                     }
@@ -205,7 +205,7 @@ public class NewChat extends AppCompatActivity {
                 }
             }
         }
-        if (resultCode == 3000) {
+        if (requestCode == 3000) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     //BitMapHolder.getBitMapHolder().getBitmap();
@@ -259,15 +259,16 @@ public class NewChat extends AppCompatActivity {
                 }
                 Chats.put("Time", ft.format(time).toString());
                 // Todo : fix the time delay for uploading profile !
+                Intent intent = new Intent(NewChat.this, MainActivity.class);
+                startActivity(intent);
                 Chats.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            Toast.makeText(NewChat.this, Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(NewChat.this, MainActivity.class);
-                            startActivity(intent);
+                            Toast.makeText(getApplicationContext(), Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
+
                         } else {
-                            Toast.makeText(NewChat.this, e.getCode() + "" + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), e.getCode() + "" + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                     }

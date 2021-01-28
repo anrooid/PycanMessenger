@@ -30,11 +30,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
+        app:layout_constraintTop_toTopOf="@+id/saveFab"
         app:srcCompat="@drawable/gradiant_editer_nav_back" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/saveFab"
         style="@style/Theme.FloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

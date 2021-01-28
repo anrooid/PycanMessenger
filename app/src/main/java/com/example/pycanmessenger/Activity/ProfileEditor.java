@@ -1,16 +1,19 @@
 package com.example.pycanmessenger.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.pycanmessenger.Models.BitMapHolder;
 import com.example.pycanmessenger.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class ProfileEditor extends AppCompatActivity implements View.OnClickListener {
@@ -25,6 +29,9 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
     private ImageView imgRotate, imgFilter, imgFlip;
     private TextView txtPath;
     private CropImageView img_edt;
+    private FloatingActionButton saveFab ;
+    private Bitmap rBitmap ;
+    private Bitmap editedBitmap ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,8 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
         txtPath = findViewById(R.id.txtPath);
 
         img_edt = findViewById(R.id.img_edit);
-        img_edt.setImageBitmap(BitMapHolder.getBitMapHolder().getBitmap());
+        rBitmap = BitMapHolder.getBitMapHolder().getBitmap();
+        img_edt.setImageBitmap(rBitmap);
 
         imgFilter.setOnClickListener(this);
         imgRotate.setOnClickListener(this);
@@ -54,8 +62,25 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
             txtPath.setText(path.toString());
         }
 
+        saveFab = findViewById(R.id.saveFab);
+        saveFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                BitMapHolder.getBitMapHolder().setBitmap(rBitmap); //Todo : Not correct -> change by editedBitmap when activity completed
+                setResult(RESULT_OK, intent);
+                onBackPressed();
+            }
+        });
+
+
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
     @Override
     public void onClick(View view) {
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.ac_color), PorterDuff.Mode.SRC_IN);

@@ -46,7 +46,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String name = "";
+        String name = "No Name";
         String description = "";
         String time = "";
         String profileTxt = "";
@@ -54,6 +54,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         ParseObject chat = parseObjects.get(position);
         if (chat.getString("Name") == null) { // analiz name
             Toast.makeText(mContext, "Error : No Name Found \n please check your network connection", Toast.LENGTH_SHORT).show();
+            holder.getaName().setText(name);
         } else {
             name = chat.getString("Name").trim().substring(1);
             holder.getaName().setText(name);
@@ -65,7 +66,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             holder.getaMessage().setText(description);
         }
         if (chat.get("Time") == null) {
-            holder.getaTime().setText("00:00");
+            holder.getaTime().setText(time);
         } else {
             time = chat.getString("Time");
             holder.getaTime().setText(time);
@@ -102,8 +103,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     public int getItemCount() {
         return parseObjects.size();
     }
-
-    //menu search
     @Override
     public Filter getFilter() {
         return filter;

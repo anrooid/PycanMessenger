@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="No Chat Yet \n you can create a new one\n with + "
+        android:text="No Chat Yet \n you can create a new one\n By + "
         android:textColor="?attr/colorSecondary"
         android:translationY="5dp"
         android:visibility="gone"
