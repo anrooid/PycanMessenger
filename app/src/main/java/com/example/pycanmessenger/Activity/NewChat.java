@@ -71,25 +71,6 @@ public class NewChat extends AppCompatActivity {
         txtseen = findViewById(R.id.txtseen);
         setSupportActionBar(toolbar);
 
-//        //check pressed event key in edtDescription
-//        edtDescription.setOnKeyListener(new View.OnKeyListener() {
-//            public boolean onKey(View v, int keyCode, KeyEvent event) {
-//                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-//                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-//                    Toast.makeText(NewChat.this, "you can not pressed enter key", Toast.LENGTH_SHORT).show();
-//
-//                    Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                        vib.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
-//                    } else {
-//                        vib.vibrate(150);
-//                    }
-//
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
         edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -100,18 +81,46 @@ public class NewChat extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.toString().length();
                 txtCounter.setText(length + "/100");
-                if (length == 100) {// vibrate ~!
-                    vibrate();
-                }
-
+                if (length == 100) {vibrate(); Toast.makeText(NewChat.this , "no more description allowed ! ", Toast.LENGTH_SHORT).show();  }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                for(int i = s.length()-1; i >= 0; i--){
+                    if(s.charAt(i) == '\n'){
+                        vibrate(); Toast.makeText(NewChat.this , "you can not presse enter key", Toast.LENGTH_SHORT).show();
+                        s.delete(i, i + 1);
+                        return;
+                    }
+                }
             }
         });
+        edtNameChat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int length = s.toString().length();
+                if (length == 20) {vibrate(); Toast.makeText(NewChat.this , "Long Name !", Toast.LENGTH_SHORT).show(); }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                for(int i = s.length()-1; i >= 0; i--){
+                    if(!(s.charAt(i)+"").matches("^(?![_.])(?!.*[_.]{2})[\\u0600-\\u06FF\\sa-zA-Z0-9._]+(?<![_.])$")){
+                        vibrate(); Toast.makeText(NewChat.this , "Not a valid Character ! -> "+s.toString().charAt(i), Toast.LENGTH_SHORT).show();
+                        s.delete(i, i + 1);
+                        return;
+                    }
+                }
+            }
+        });
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         //pv OR group OR channel
@@ -227,11 +236,10 @@ public class NewChat extends AppCompatActivity {
             SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
             ParseObject Chats = new ParseObject("Chats");
             //prefix
-            // Todo : add an on change validator !  (fixed)
             if (name.equals("")) {
                 edtNameChat.setError("set name");
 
-            } else if (name.matches("[a-zA-Z_-]+")) {
+            } else  {
                 if (PV) {
                     Chats.put("Name", "0" + edtNameChat.getText().toString());
                 } else if (Group) {
@@ -239,7 +247,6 @@ public class NewChat extends AppCompatActivity {
                 } else if (Channel) {
                     Chats.put("Name", "2" + edtNameChat.getText().toString());
                 }
-                // Todo : add an on change validator in order to handel enter ! (fixed)
                 Chats.put("Descripton", edtDescription.getText().toString());
                 if (PV)
                     Chats.put("Seen", checkSeen.isChecked());
@@ -266,8 +273,6 @@ public class NewChat extends AppCompatActivity {
                     }
                 });
             }
-            else edtNameChat.setError("this name is not valid.\n " +
-                        "only ( a-z A-Z _ ) is allowed to use.");
 
         }
      return super.onOptionsItemSelected(item);
@@ -276,9 +281,9 @@ public class NewChat extends AppCompatActivity {
     public void  vibrate () {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+            v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
-            v.vibrate(500);
+            v.vibrate(300);
         }
     }
 
