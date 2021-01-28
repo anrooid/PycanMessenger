@@ -125,19 +125,15 @@ public class NewChat extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         //pv OR group OR channel
         if (bundle != null) {
-
-            String dataC = bundle.getString("prefixC");
-            String dataG = bundle.getString("prefixG");
-            String dataPv = bundle.getString("prefixP");
             String s;
-            if (dataC != null) {
-                s = dataC;
+            if (bundle.getString("prefixC") != null) {
+                s = bundle.getString("prefixC");
                 Channel = true;
-            } else if (dataG != null) {
-                s = dataG;
+            } else if (bundle.getString("prefixG") != null) {
+                s = bundle.getString("prefixG");
                 Group = true;
             } else {
-                s = dataPv;
+                s = bundle.getString("prefixP");
                 PV = true;
                 txtseen.setVisibility(View.VISIBLE);
                 checkSeen.setVisibility(View.VISIBLE);
@@ -159,6 +155,11 @@ public class NewChat extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void getChosenImage() {
@@ -187,18 +188,7 @@ public class NewChat extends AppCompatActivity {
                 try {
                     Intent intent = new Intent(NewChat.this, ProfileEditor.class);
                     selectedImage = data.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getContentResolver().query(selectedImage, filePathColumn,
-                            null, null, null);
-                    cursor.moveToFirst();
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    intent.putExtra("picturePath", picturePath);
-                    cursor.close();
-                    receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
-                    // onpen a new activity ! in order to edit ! Crop Fillter
-                    BitMapHolder.getBitMapHolder().setBitmap(receivedImageBitmap);
-
+                    intent.putExtra("Uri",selectedImage);
                     startActivityForResult(intent, 3000);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -208,7 +198,6 @@ public class NewChat extends AppCompatActivity {
         if (requestCode == 3000) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    //BitMapHolder.getBitMapHolder().getBitmap();
                     receivedImageBitmap = BitMapHolder.getBitMapHolder().getBitmap();
                     imgProfile.setImageBitmap(receivedImageBitmap);
                     imgCamera.setVisibility(View.INVISIBLE);
@@ -237,8 +226,7 @@ public class NewChat extends AppCompatActivity {
             ParseObject Chats = new ParseObject("Chats");
             //prefix
             if (name.equals("")) {
-                edtNameChat.setError("set name");
-
+                vibrate(); Toast.makeText(NewChat.this , "please set a name ! ", Toast.LENGTH_SHORT).show();
             } else  {
                 if (PV) {
                     Chats.put("Name", "0" + edtNameChat.getText().toString());
@@ -259,14 +247,13 @@ public class NewChat extends AppCompatActivity {
                 }
                 Chats.put("Time", ft.format(time).toString());
                 // Todo : fix the time delay for uploading profile !
-                Intent intent = new Intent(NewChat.this, MainActivity.class);
-                startActivity(intent);
                 Chats.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
                             Toast.makeText(getApplicationContext(), Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
-
+                            Intent intent = new Intent(NewChat.this, MainActivity.class);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), e.getCode() + "" + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
                             e.printStackTrace();

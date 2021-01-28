@@ -12,6 +12,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,9 +30,8 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
     private ImageView imgRotate, imgFilter, imgFlip;
     private TextView txtPath;
     private CropImageView img_edt;
-    private FloatingActionButton saveFab ;
-    private Bitmap rBitmap ;
-    private Bitmap editedBitmap ;
+    private FloatingActionButton saveFab;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,30 +44,18 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
         txtPath = findViewById(R.id.txtPath);
 
         img_edt = findViewById(R.id.img_edit);
-        rBitmap = BitMapHolder.getBitMapHolder().getBitmap();
-        img_edt.setImageBitmap(rBitmap);
 
         imgFilter.setOnClickListener(this);
         imgRotate.setOnClickListener(this);
         imgFlip.setOnClickListener(this);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            StringBuilder path = new StringBuilder("");
-            String[] pathArray = bundle.getString("picturePath").split("/");
-            for (int i = pathArray.length - 3; i < pathArray.length; i++) {
-                path.append(pathArray[i]);
-                if (i < pathArray.length - 1) path.append("/");
-            }
-            txtPath.setText(path.toString());
-        }
+
 
         saveFab = findViewById(R.id.saveFab);
         saveFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                BitMapHolder.getBitMapHolder().setBitmap(rBitmap); //Todo : Not correct -> change by editedBitmap when activity completed
+                BitMapHolder.getBitMapHolder().setBitmap(img_edt.getCroppedImage());
                 setResult(RESULT_OK, intent);
                 onBackPressed();
             }
@@ -76,11 +64,31 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @Override
+    protected void onResume() {
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            if (bundle.get("Uri")!=null){
+                uri = (Uri) bundle.get("Uri");
+                img_edt.setImageUriAsync(uri);
+                StringBuilder path = new StringBuilder("");
+                String[] pathArray = uri.getEncodedPath().split("%2F");
+                for (int i = pathArray.length - 3; i < pathArray.length; i++) {
+                    path.append(pathArray[i]);
+                    if (i < pathArray.length - 1) path.append("/");
+                }
+                txtPath.setText(path.toString());
+            }
+        }
+        super.onResume();
+    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
     @Override
     public void onClick(View view) {
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.ac_color), PorterDuff.Mode.SRC_IN);
@@ -95,14 +103,13 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //set what would happen when positive button is clicked
-                                //  finish();
                                 dialogInterface.dismiss();
                             }
                         })
                         .show();
                 break;
             case R.id.img_flip:
+                img_edt.flipImageHorizontally();
                 if (imgFlip.getScaleX() == 1) {
                     imgFlip.setScaleX(-1);
                     imgFlip.getDrawable().setColorFilter(filter);
@@ -113,6 +120,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.img_rotate:
                 imgRotate.setRotation(imgRotate.getRotation() - 90);
+                img_edt.rotateImage(-90);
                 if (imgRotate.getRotation() % 360 == 0)
                     imgRotate.getDrawable().setColorFilter(null);
                 else

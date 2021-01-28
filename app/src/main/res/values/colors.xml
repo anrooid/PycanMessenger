@@ -2,9 +2,9 @@
 <resources>
 
     <color name="black">#FF000000</color>
-    <color name="black_hint">#CD000000</color>
+    <color name="black_hint">#A6000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="white_hint">#CCFFFFFF</color>
+    <color name="white_hint">#A6FFFFFF</color>
     <color name="dark">#2B253A</color>
     <color name="ac_color">#E51EDB</color>
 
