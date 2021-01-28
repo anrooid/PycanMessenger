@@ -14,6 +14,8 @@
         app:cropAspectRatioX="5"
         app:cropAspectRatioY="5"
         app:cropFixAspectRatio="true"
+        app:cropAutoZoomEnabled="true"
+
         app:cropScaleType="centerInside"
         app:cropShape="oval"
         app:layout_constraintBottom_toBottomOf="@+id/gradiant_back"
@@ -29,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/floatingActionButton"
-        app:srcCompat="@drawable/gradiant_editer_back" />
+        app:srcCompat="@drawable/gradiant_editer_nav_back" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -87,8 +89,13 @@
         android:id="@+id/txtPath"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:background="@drawable/gradiant_editer_actionbar_back"
+        android:gravity="fill_horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="15dp"
+        android:text="dasfasfe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -7,6 +7,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.pycanmessenger.Adapters.TabAdapter;
 import com.example.pycanmessenger.R;
@@ -36,16 +37,35 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager,false);
         viewPager.setAdapter(tabAdapter);
 
-        // go to activity AddNew
-        // Todo : open addnew by the name of shown fregment
-        // all - > add new
-        // pv , group , channel - > new chat
+        
         fab = findViewById(R.id.fabAddNewChat);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this , AddNew.class);
-                startActivity(intent);
+                switch (viewPager.getCurrentItem()){
+                    case 0:
+                        Intent intent0 = new Intent(MainActivity.this , AddNew.class);
+                        startActivity(intent0);
+                        break;
+                    case 1:
+                        Intent intent1 = new Intent(MainActivity.this , NewChat.class);
+                        intent1.putExtra("prefixP", "Pv");
+                        startActivity(intent1);
+                        break;
+                    case 2:
+                        Intent intent2 = new Intent(MainActivity.this , NewChat.class);
+                        intent2.putExtra("prefixG", "Group");
+                        startActivity(intent2);
+                        break;
+                    case 3:
+                        Intent intent3 = new Intent(MainActivity.this , NewChat.class);
+                        intent3.putExtra("prefixC", "Channel");
+                        startActivity(intent3);
+                        break;
+                    default:
+                        break;
+                }
+
             }
         });
 

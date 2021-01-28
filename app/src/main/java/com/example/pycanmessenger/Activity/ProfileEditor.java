@@ -22,9 +22,10 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class ProfileEditor extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView imgRotate , imgFilter , imgFlip;
+    private ImageView imgRotate, imgFilter, imgFlip;
     private TextView txtPath;
-    private CropImageView img_edt ;
+    private CropImageView img_edt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +44,13 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
         imgFlip.setOnClickListener(this);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        if (bundle!= null){
-            StringBuilder path = new StringBuilder("") ;
+        if (bundle != null) {
+            StringBuilder path = new StringBuilder("");
             String[] pathArray = bundle.getString("picturePath").split("/");
-            for (int i = 4 ; i < pathArray.length ; i++) {path.append(pathArray[i]) ; if (i<pathArray.length-1) path.append("/");}
+            for (int i = pathArray.length - 3; i < pathArray.length; i++) {
+                path.append(pathArray[i]);
+                if (i < pathArray.length - 1) path.append("/");
+            }
             txtPath.setText(path.toString());
         }
 
@@ -55,8 +59,8 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.ac_color), PorterDuff.Mode.SRC_IN);
-        switch (view.getId()){
-            case R.id.img_filter :
+        switch (view.getId()) {
+            case R.id.img_filter:
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
 
                         .setTitle("Sorry")
@@ -67,24 +71,27 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //set what would happen when positive button is clicked
-                              //  finish();
+                                //  finish();
                                 dialogInterface.dismiss();
                             }
                         })
                         .show();
                 break;
-            case  R.id.img_flip:
-                if (imgFlip.getScaleX() == 1){
+            case R.id.img_flip:
+                if (imgFlip.getScaleX() == 1) {
                     imgFlip.setScaleX(-1);
                     imgFlip.getDrawable().setColorFilter(filter);
-                }else if (imgFlip.getScaleX() == -1){
+                } else if (imgFlip.getScaleX() == -1) {
                     imgFlip.setScaleX(1);
                     imgFlip.getDrawable().setColorFilter(null);
                 }
                 break;
-            case  R.id.img_rotate:
-                imgRotate.setRotation(imgRotate.getRotation()-90);
-                imgRotate.getDrawable().setColorFilter(filter);
+            case R.id.img_rotate:
+                imgRotate.setRotation(imgRotate.getRotation() - 90);
+                if (imgRotate.getRotation() % 360 == 0)
+                    imgRotate.getDrawable().setColorFilter(null);
+                else
+                    imgRotate.getDrawable().setColorFilter(filter);
                 break;
         }
     }
