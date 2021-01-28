@@ -55,7 +55,6 @@ public class NewChat extends AppCompatActivity {
     TextView txtCounter;
     Bitmap receivedImageBitmap;
     Uri selectedImage ;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,6 +160,7 @@ public class NewChat extends AppCompatActivity {
         if (requestCode == 2000) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
+                    Intent intent = new Intent(NewChat.this, ProfileEditor.class);
                      selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(selectedImage, filePathColumn,
@@ -168,11 +168,12 @@ public class NewChat extends AppCompatActivity {
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                     String picturePath = cursor.getString(columnIndex);
+                    intent.putExtra("picturePath",picturePath);
                     cursor.close();
                     receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
                     // onpen a new activity ! in order to edit ! Crop Fillter
                     BitMapHolder.getBitMapHolder().setBitmap(receivedImageBitmap);
-                    Intent intent = new Intent(NewChat.this, ProfileEditor.class);
+
                     startActivityForResult(intent, 3000);
                 } catch (Exception e) {
                     e.printStackTrace();
