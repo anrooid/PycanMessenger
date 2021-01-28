@@ -16,9 +16,11 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -45,7 +47,6 @@ import java.util.Date;
 
 public class NewChat extends AppCompatActivity {
 
-
     private CheckBox checkSeen;
     private Toolbar toolbar;
     private TextView txtseen;
@@ -54,12 +55,12 @@ public class NewChat extends AppCompatActivity {
     EditText edtNameChat, edtDescription;
     TextView txtCounter;
     Bitmap receivedImageBitmap;
-    Uri selectedImage ;
+    Uri selectedImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
-
         checkSeen = findViewById(R.id.chkSeen);
         toolbar = findViewById(R.id.newChatToolbar);
         imgProfile = findViewById(R.id.imgProfile);
@@ -70,6 +71,25 @@ public class NewChat extends AppCompatActivity {
         txtseen = findViewById(R.id.txtseen);
         setSupportActionBar(toolbar);
 
+        //check pressed event key in edtDescription
+        edtDescription.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Toast.makeText(NewChat.this, "you can not pressed enter key", Toast.LENGTH_SHORT).show();
+
+                    Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vib.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        vib.vibrate(150);
+                    }
+
+                    return true;
+                }
+                return false;
+            }
+        });
         edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -161,14 +181,14 @@ public class NewChat extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     Intent intent = new Intent(NewChat.this, ProfileEditor.class);
-                     selectedImage = data.getData();
+                    selectedImage = data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(selectedImage, filePathColumn,
                             null, null, null);
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                     String picturePath = cursor.getString(columnIndex);
-                    intent.putExtra("picturePath",picturePath);
+                    intent.putExtra("picturePath", picturePath);
                     cursor.close();
                     receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
                     // onpen a new activity ! in order to edit ! Crop Fillter
@@ -184,7 +204,7 @@ public class NewChat extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     //BitMapHolder.getBitMapHolder().getBitmap();
-                    receivedImageBitmap= BitMapHolder.getBitMapHolder().getBitmap();
+                    receivedImageBitmap = BitMapHolder.getBitMapHolder().getBitmap();
                     imgProfile.setImageBitmap(receivedImageBitmap);
                     imgCamera.setVisibility(View.INVISIBLE);
                 } catch (Exception e) {
@@ -202,6 +222,7 @@ public class NewChat extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String name = edtNameChat.getText().toString();
         if (item.getItemId() == R.id.mnuCheck) {
 
 
@@ -210,48 +231,51 @@ public class NewChat extends AppCompatActivity {
             SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
             ParseObject Chats = new ParseObject("Chats");
             //prefix
-            // Todo : add an on change validator !
-            if (edtNameChat.getText().toString().equals("")) {
+            // Todo : add an on change validator !  (fixed)
+            if (name.equals("")) {
                 edtNameChat.setError("set name");
-            }
-            if (PV) {
-                Chats.put("Name", "0" + edtNameChat.getText().toString());
-            } else if (Group) {
-                Chats.put("Name", "1" + edtNameChat.getText().toString());
-            } else if (Channel) {
-                Chats.put("Name", "2" + edtNameChat.getText().toString());
-            }
-            // Todo : add an on change validator in order to handel enter !
-            Chats.put("Descripton", edtDescription.getText().toString());
-            if (PV)
-                Chats.put("Seen", checkSeen.isChecked());
-            if (receivedImageBitmap != null ) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] bytes = stream.toByteArray();
-                ParseFile parseFile = new ParseFile("img.png", bytes);
-                Chats.put("Profile", parseFile);
-            }
-            Chats.put("Time", ft.format(time).toString());
-            // Todo : fix the time delay for uploading profile !
-            Chats.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        Toast.makeText(NewChat.this, Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(NewChat.this, MainActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(NewChat.this, e.getCode() + "" + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
-                        e.printStackTrace();
-                    }
+
+            } else if (name.matches("[a-zA-Z_-]+")) {
+                if (PV) {
+                    Chats.put("Name", "0" + edtNameChat.getText().toString());
+                } else if (Group) {
+                    Chats.put("Name", "1" + edtNameChat.getText().toString());
+                } else if (Channel) {
+                    Chats.put("Name", "2" + edtNameChat.getText().toString());
                 }
-            });
+                // Todo : add an on change validator in order to handel enter ! (fixed)
+                Chats.put("Descripton", edtDescription.getText().toString());
+                if (PV)
+                    Chats.put("Seen", checkSeen.isChecked());
+                if (receivedImageBitmap != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] bytes = stream.toByteArray();
+                    ParseFile parseFile = new ParseFile("img.png", bytes);
+                    Chats.put("Profile", parseFile);
+                }
+                Chats.put("Time", ft.format(time).toString());
+                // Todo : fix the time delay for uploading profile !
+                Chats.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            Toast.makeText(NewChat.this, Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(NewChat.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(NewChat.this, e.getCode() + "" + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+            else edtNameChat.setError("this name is not valid.\n " +
+                        "only ( a-z A-Z _ ) is allowed to use.");
+
         }
+     return super.onOptionsItemSelected(item);
 
-
-        return super.onOptionsItemSelected(item);
     }
 
-//   
 }

@@ -56,7 +56,6 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.img_filter :
-                Toast.makeText(ProfileEditor.this , "this image is not available in this version", Toast.LENGTH_LONG).show();
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
 
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -69,15 +68,25 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //set what would happen when positive button is clicked
-                                finish();
+                              //  finish();
+                                dialogInterface.dismiss();
                             }
                         })
                         .show();
                 break;
             case  R.id.img_flip:
+                if (imgFlip.getScaleX() == 1){
+                    imgFlip.setScaleX(-1);
+                }else if (imgFlip.getScaleX() == -1){
+                    imgFlip.setScaleX(1);
+                }
+                imgFlip.setColorFilter(R.style.Theme_Vector);
+
                 break;
             case  R.id.img_rotate:
-                imgRotate.setRotation(imgRotate.getRotation()+90);
+                imgRotate.setRotation(imgRotate.getRotation()-90);
+                imgRotate.setColorFilter(R.style.Theme_Vector);
+
                 break;
         }
     }

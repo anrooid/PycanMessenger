@@ -22,6 +22,11 @@
         <item name="tint">@color/dark_ac</item>
         <item name="rippleColor">@color/black_hint</item>
     </style>
+
+    <style name="Theme.Vector" parent="Widget.AppCompat.ImageButton">
+        <item name="tint">@color/dark_ac</item>
+    </style>
+
     <style name="Theme.Tab" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:background">@color/dark</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
