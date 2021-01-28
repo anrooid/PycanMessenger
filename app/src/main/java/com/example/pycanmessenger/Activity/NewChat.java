@@ -71,25 +71,25 @@ public class NewChat extends AppCompatActivity {
         txtseen = findViewById(R.id.txtseen);
         setSupportActionBar(toolbar);
 
-        //check pressed event key in edtDescription
-        edtDescription.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Toast.makeText(NewChat.this, "you can not pressed enter key", Toast.LENGTH_SHORT).show();
-
-                    Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vib.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
-                    } else {
-                        vib.vibrate(150);
-                    }
-
-                    return true;
-                }
-                return false;
-            }
-        });
+//        //check pressed event key in edtDescription
+//        edtDescription.setOnKeyListener(new View.OnKeyListener() {
+//            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+//                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+//                    Toast.makeText(NewChat.this, "you can not pressed enter key", Toast.LENGTH_SHORT).show();
+//
+//                    Vibrator vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                        vib.vibrate(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE));
+//                    } else {
+//                        vib.vibrate(150);
+//                    }
+//
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         edtDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -101,13 +101,9 @@ public class NewChat extends AppCompatActivity {
                 int length = s.toString().length();
                 txtCounter.setText(length + "/100");
                 if (length == 100) {// vibrate ~!
-                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
-                    } else {
-                        v.vibrate(500);
-                    }
+                    vibrate();
                 }
+
 
             }
 
@@ -276,6 +272,14 @@ public class NewChat extends AppCompatActivity {
         }
      return super.onOptionsItemSelected(item);
 
+    }
+    public void  vibrate () {
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            v.vibrate(500);
+        }
     }
 
 }

@@ -6,9 +6,9 @@
         <item name="colorPrimaryVariant">@color/dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/dark_ac</item>
-        <item name="colorSecondaryVariant">@color/dark_ac</item>
-        <item name="colorOnSecondary">@color/dark_ac</item>
+        <item name="colorSecondary">@color/ac_color</item>
+        <item name="colorSecondaryVariant">@color/ac_color</item>
+        <item name="colorOnSecondary">@color/ac_color</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -19,18 +19,16 @@
     </style>
     <style name="Theme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/dark</item>
-        <item name="tint">@color/dark_ac</item>
+        <item name="tint">@color/ac_color</item>
         <item name="rippleColor">@color/black_hint</item>
     </style>
 
-    <style name="Theme.Vector" parent="Widget.AppCompat.ImageButton">
-        <item name="tint">@color/dark_ac</item>
-    </style>
+
 
     <style name="Theme.Tab" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:background">@color/dark</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
-        <item name="tabTextColor">@color/dark_ac</item>
+        <item name="tabTextColor">@color/ac_color</item>
         <item name="tabSelectedTextColor">@color/white</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabIndicatorGravity">bottom</item>

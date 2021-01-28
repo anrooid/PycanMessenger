@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,9 +36,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
         txtPath = findViewById(R.id.txtPath);
 
         img_edt = findViewById(R.id.img_edit);
-        //img_edt.setImageBitmap(BitMapHolder.getBitMapHolder().getBitmap());
-
-        //BitMapHolder.getBitMapHolder().setBitmap(img_edt.getCroppedImage());
+        img_edt.setImageBitmap(BitMapHolder.getBitMapHolder().getBitmap());
 
         imgFilter.setOnClickListener(this);
         imgRotate.setOnClickListener(this);
@@ -42,23 +44,20 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle!= null){
-            String s ;
-            String a ;
-            String path = bundle.getString("picturePath");
-            s = path.substring(path.indexOf("/")+1);
-            a = s.substring(s.indexOf("/")+1);
-            txtPath.setText(a);
+            StringBuilder path = new StringBuilder("") ;
+            String[] pathArray = bundle.getString("picturePath").split("/");
+            for (int i = 4 ; i < pathArray.length ; i++) {path.append(pathArray[i]) ; if (i<pathArray.length-1) path.append("/");}
+            txtPath.setText(path.toString());
         }
 
     }
 
     @Override
     public void onClick(View view) {
+        ColorFilter filter = new PorterDuffColorFilter(getResources().getColor(R.color.ac_color), PorterDuff.Mode.SRC_IN);
         switch (view.getId()){
             case R.id.img_filter :
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
-
-                        .setIcon(android.R.drawable.ic_dialog_alert)
 
                         .setTitle("Sorry")
 
@@ -77,16 +76,15 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
             case  R.id.img_flip:
                 if (imgFlip.getScaleX() == 1){
                     imgFlip.setScaleX(-1);
+                    imgFlip.getDrawable().setColorFilter(filter);
                 }else if (imgFlip.getScaleX() == -1){
                     imgFlip.setScaleX(1);
+                    imgFlip.getDrawable().setColorFilter(null);
                 }
-                imgFlip.setColorFilter(R.style.Theme_Vector);
-
                 break;
             case  R.id.img_rotate:
                 imgRotate.setRotation(imgRotate.getRotation()-90);
-                imgRotate.setColorFilter(R.style.Theme_Vector);
-
+                imgRotate.getDrawable().setColorFilter(filter);
                 break;
         }
     }

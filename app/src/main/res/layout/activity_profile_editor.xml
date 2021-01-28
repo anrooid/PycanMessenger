@@ -14,7 +14,7 @@
         app:cropAspectRatioX="5"
         app:cropAspectRatioY="5"
         app:cropFixAspectRatio="true"
-        app:cropScaleType="centerCrop"
+        app:cropScaleType="centerInside"
         app:cropShape="oval"
         app:layout_constraintBottom_toBottomOf="@+id/gradiant_back"
         app:layout_constraintEnd_toEndOf="parent"

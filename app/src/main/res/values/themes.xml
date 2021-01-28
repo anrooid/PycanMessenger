@@ -6,9 +6,9 @@
         <item name="colorPrimaryVariant">@color/white</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/light_ac</item>
-        <item name="colorSecondaryVariant">@color/light_ac</item>
-        <item name="colorOnSecondary">@color/light_ac</item>
+        <item name="colorSecondary">@color/ac_color</item>
+        <item name="colorSecondaryVariant">@color/ac_color</item>
+        <item name="colorOnSecondary">@color/ac_color</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
@@ -17,24 +17,29 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">@color/black_hint</item>
+        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
     <style name="Theme.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
-        <item name="backgroundTint">@color/light_ac</item>
+        <item name="backgroundTint">@color/ac_color</item>
         <item name="tint">@color/white</item>
         <item name="rippleColor">@color/white_hint</item>
     </style>
-    <style name="Theme.Vector" parent="Widget.AppCompat.ImageButton">
-        <item name="tint">@color/dark_ac</item>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
     <style name="Theme.Tab" parent="Widget.MaterialComponents.TabLayout">
         <item name="android:background">@color/white</item>
         <item name="tabIndicator">@drawable/tab_indicator</item>
         <item name="tabTextColor">@color/black</item>
-        <item name="tabSelectedTextColor">@color/light_ac</item>
+        <item name="tabSelectedTextColor">@color/ac_color</item>
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabIndicatorGravity">bottom</item>
-        <item name="tabIndicatorColor">@color/light_ac</item>
+        <item name="tabIndicatorColor">@color/ac_color</item>
         <item name="tabIndicatorHeight">4dp</item>
         <item name="tabRippleColor">@color/white</item>
     </style>
