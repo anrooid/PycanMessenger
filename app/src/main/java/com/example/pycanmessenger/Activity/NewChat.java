@@ -3,6 +3,7 @@ package com.example.pycanmessenger.Activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -56,6 +58,7 @@ public class NewChat extends AppCompatActivity {
     TextView txtCounter;
     Bitmap receivedImageBitmap;
     Uri selectedImage;
+    private boolean dicard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,15 +84,19 @@ public class NewChat extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.toString().length();
                 txtCounter.setText(length + "/100");
-                if (length == 100) {vibrate(); Toast.makeText(NewChat.this , "no more description allowed ! ", Toast.LENGTH_SHORT).show();  }
+                if (length == 100) {
+                    vibrate();
+                    Toast.makeText(NewChat.this, "no more description allowed ! ", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                for(int i = s.length()-1; i >= 0; i--){
-                    if(s.charAt(i) == '\n'){
-                        vibrate(); Toast.makeText(NewChat.this , "you can not press enter key", Toast.LENGTH_SHORT).show();
+                for (int i = s.length() - 1; i >= 0; i--) {
+                    if (s.charAt(i) == '\n') {
+                        vibrate();
+                        Toast.makeText(NewChat.this, "you can not press enter key", Toast.LENGTH_SHORT).show();
                         s.delete(i, i + 1);
                         return;
                     }
@@ -105,15 +112,19 @@ public class NewChat extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.toString().length();
-                if (length == 20) {vibrate(); Toast.makeText(NewChat.this , "Long Name !", Toast.LENGTH_SHORT).show(); }
+                if (length == 20) {
+                    vibrate();
+                    Toast.makeText(NewChat.this, "Long Name !", Toast.LENGTH_SHORT).show();
+                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                for(int i = s.length()-1; i >= 0; i--){
-                    if(!(s.charAt(i)+"").matches("^(?![_.])(?!.*[_.]{2})[\\u0600-\\u06FF\\sa-zA-Z0-9._]+(?<![_.])$")){
-                        vibrate(); Toast.makeText(NewChat.this , "Not a valid Character ! -> "+s.toString().charAt(i), Toast.LENGTH_SHORT).show();
+                for (int i = s.length() - 1; i >= 0; i--) {
+                    if (!(s.charAt(i) + "").matches("^(?!.*[_.]{2})[\\u0600-\\u06FF\\sa-zA-Z0-9._]+$")) {
+                        vibrate();
+                        Toast.makeText(NewChat.this, "Not a valid Character ! -> " + s.toString().charAt(i), Toast.LENGTH_SHORT).show();
                         s.delete(i, i + 1);
                         return;
                     }
@@ -159,7 +170,36 @@ public class NewChat extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        dicard = false;
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!dicard) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                    .setTitle(getTitle())
+                    .setMessage("Are Your Sure To Discard ? ")
+
+                    .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dicard = true;
+                            dialogInterface.dismiss();
+                            onBackPressed();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+
+                    .show();
+        } else
+            super.onBackPressed();
     }
 
     private void getChosenImage() {
@@ -188,7 +228,7 @@ public class NewChat extends AppCompatActivity {
                 try {
                     Intent intent = new Intent(NewChat.this, ProfileEditor.class);
                     selectedImage = data.getData();
-                    intent.putExtra("Uri",selectedImage);
+                    intent.putExtra("Uri", selectedImage);
                     startActivityForResult(intent, 3000);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -226,8 +266,9 @@ public class NewChat extends AppCompatActivity {
             ParseObject Chats = new ParseObject("Chats");
             //prefix
             if (name.equals("")) {
-                vibrate(); Toast.makeText(NewChat.this , "please set a name ! ", Toast.LENGTH_SHORT).show();
-            } else  {
+                vibrate();
+                Toast.makeText(NewChat.this, "please set a name ! ", Toast.LENGTH_SHORT).show();
+            } else {
                 if (PV) {
                     Chats.put("Name", "0" + edtNameChat.getText().toString());
                 } else if (Group) {
@@ -263,10 +304,11 @@ public class NewChat extends AppCompatActivity {
             }
 
         }
-     return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
 
     }
-    public void  vibrate () {
+
+    public void vibrate() {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));

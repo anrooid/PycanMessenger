@@ -32,6 +32,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
     private CropImageView img_edt;
     private FloatingActionButton saveFab;
     private Uri uri;
+    private boolean dicard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                 StringBuilder path = new StringBuilder("");
                 String[] pathArray = uri.getEncodedPath().split("%2F");
                 for (int i = pathArray.length - 3; i < pathArray.length; i++) {
+                    pathArray[i] = pathArray[i].replaceAll("%20"," ");
                     path.append(pathArray[i]);
                     if (i < pathArray.length - 1) path.append("/");
                 }
@@ -86,7 +88,30 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (!dicard) {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                    .setTitle("Editor")
+                    .setMessage("Are Your Sure To Discard ? ")
+
+                    .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dicard = true;
+                            dialogInterface.dismiss();
+                            onBackPressed();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+
+                    .show();
+        } else
+            super.onBackPressed();
     }
 
     @Override
@@ -97,15 +122,9 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                 AlertDialog alertDialog = new AlertDialog.Builder(this)
 
                         .setTitle("Sorry")
-
                         .setMessage("This feature is not available in this version" + "\n" + "Coming soon ...")
 
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        })
+                        .setPositiveButton("Yes",null)
                         .show();
                 break;
             case R.id.img_flip:

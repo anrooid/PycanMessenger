@@ -106,7 +106,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public Filter getFilter() {
         return filter;
-    }
+    } //Todo : check that the list is not empty !
     Filter filter = new Filter() {
         //run on background thread
         @Override
