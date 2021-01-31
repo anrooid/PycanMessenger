@@ -61,14 +61,14 @@ public class GroupChat extends Fragment {
                     gProgressBar.setVisibility(View.GONE);
                     if (objects.size()>0){
                         gAdapter= new ChatAdapter(objects,getContext());
-                        gRecyclerView.setAdapter(gAdapter);
                     }else {
+                        gAdapter = new ChatAdapter(null,getContext());
                         erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
                         erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-
+                    gRecyclerView.setAdapter(gAdapter);
                 }else {
                     e.printStackTrace();                }
             }

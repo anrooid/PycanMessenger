@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.pycanmessenger.Activity.MainActivity;
 import com.example.pycanmessenger.R;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -33,8 +34,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     public ChatAdapter(List<ParseObject> parseObjects, Context mContext) {
         this.mContext = mContext;
-        this.parseObjects = parseObjects;
-        this.parseObjectsAll = new ArrayList<>(parseObjects);
+        if (parseObjects != null ) {
+            this.parseObjects = parseObjects;
+            this.parseObjectsAll = new ArrayList<>(parseObjects);
+        }else  {
+            this.parseObjectsAll = new ArrayList<>();
+            this.parseObjects = new ArrayList<>();
+        }
     }
 
     @NonNull
@@ -47,29 +53,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String name = "No Name";
-        String description = "";
-        String time = "";
-        String profileTxt = "";
-        ParseFile profile;
         ParseObject chat = parseObjects.get(position);
         if (chat.getString("Name") == null) { // analiz name
             Toast.makeText(mContext, "Error : No Name Found \n please check your network connection", Toast.LENGTH_SHORT).show();
-            holder.getaName().setText(name);
         } else {
             name = chat.getString("Name").trim().substring(1);
-            holder.getaName().setText(name);
         }
+        holder.getaName().setText(name);
         if (chat.get("Descripton") == null) { // analiz description
             holder.getaMessage().setText("No Chat Yet");
         } else {
-            description = chat.getString("Descripton");
-            holder.getaMessage().setText(description);
+            holder.getaMessage().setText(chat.getString("Descripton"));
         }
         if (chat.get("Time") == null) {
-            holder.getaTime().setText(time);
+            holder.getaTime().setText("");
         } else {
-            time = chat.getString("Time");
-            holder.getaTime().setText(time);
+            holder.getaTime().setText(chat.getString("Time"));
         }
         if (chat.get("Seen") != null) {
             if (chat.getBoolean("Seen")) {
@@ -80,12 +79,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
         if (chat.get("Profile") == null) {
             String c2 ="" ,c1 = String.valueOf(name.charAt(0));
-            if (name.indexOf(" ")!=-1)
+            if (name.contains(" "))
                 c2 = String.valueOf(name.charAt(name.indexOf(" ")+1));
             holder.getaOnprofile().setText(c1+c2);
         } else {
-            profile = chat.getParseFile("Profile");
-            profile.getDataInBackground(new GetDataCallback() {
+            chat.getParseFile("Profile")
+                    .getDataInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
                     if (e == null) {
@@ -112,16 +111,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<ParseObject> filteredList = new ArrayList<>();
-            if (charSequence.toString().isEmpty()){
-                filteredList.addAll(parseObjectsAll);
-            }else {
-                for ( ParseObject  SparseObject : parseObjectsAll){
-                    if (SparseObject.getString("Name").toLowerCase().contains(charSequence.toString().toLowerCase())){
-                        filteredList.add(SparseObject);
+            if (parseObjectsAll !=null &&parseObjectsAll.size() != 0 ) {
+                if (charSequence.toString().isEmpty()) {
+                    filteredList.addAll(parseObjectsAll);
+
+                } else {
+                    for (ParseObject SparseObject : parseObjectsAll) {
+                        if (SparseObject.getString("Name").toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                            filteredList.add(SparseObject);
+                        }
                     }
                 }
+            }else {
+                    Toast.makeText(mContext,"Not able to Search on a empty list !", Toast.LENGTH_SHORT).show();
             }
-
             FilterResults filterResults = new FilterResults();
             filterResults.values = filteredList;
             return filterResults;

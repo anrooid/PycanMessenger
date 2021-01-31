@@ -61,14 +61,15 @@ public class AllChat extends Fragment {
                     aProgressBar.setVisibility(View.GONE);
                     if (objects.size()>0){
                         aAdapter = new ChatAdapter(objects,getContext());
-                        allRecycler.setAdapter(aAdapter);
                     }else {
                         // show a text to user that no chats yet !
+                        aAdapter = new ChatAdapter(null,getContext());
                         erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
                         erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
+                    allRecycler.setAdapter(aAdapter);
                 }else {
                     e.printStackTrace();
                 }

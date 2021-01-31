@@ -62,14 +62,14 @@ public class PvChat extends Fragment {
                     pProgressBar.setVisibility(View.GONE);
                     if (objects.size()>0){
                         pChatAdapter= new ChatAdapter(objects,getContext());
-                        pRecycle_View.setAdapter(pChatAdapter);
                     }else {
+                        pChatAdapter = new ChatAdapter(null,getContext());
                         erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
                         erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-
+                    pRecycle_View.setAdapter(pChatAdapter);
                 }else {
                     e.printStackTrace();                }
             }

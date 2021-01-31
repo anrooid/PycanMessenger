@@ -64,14 +64,15 @@ public class ChannelChat extends Fragment {
                     mProgress.setVisibility(View.GONE);
                     if (objects.size()>0){
                         mAdapter = new ChatAdapter(objects,getContext());
-                        myRecycler.setAdapter(mAdapter);
                     }else {
                         // show a text to user that no chats yet !
+                        mAdapter = new ChatAdapter(null,getContext());
                         erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
                         erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
+                    myRecycler.setAdapter(mAdapter);
                 }else {
                     e.printStackTrace();
                 }
