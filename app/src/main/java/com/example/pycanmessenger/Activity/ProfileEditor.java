@@ -1,24 +1,18 @@
 package com.example.pycanmessenger.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pycanmessenger.Models.BitMapHolder;
 import com.example.pycanmessenger.R;
@@ -32,7 +26,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
     private CropImageView img_edt;
     private FloatingActionButton saveFab;
     private Uri uri;
-    private boolean dicard;
+    private boolean discard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +52,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                 Intent intent = new Intent();
                 BitMapHolder.getBitMapHolder().setBitmap(img_edt.getCroppedImage());
                 setResult(RESULT_OK, intent);
+                discard =true ;
                 onBackPressed();
             }
         });
@@ -88,7 +83,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        if (!dicard) {
+        if (!discard) {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
 
                     .setTitle("Editor")
@@ -97,7 +92,7 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                     .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            dicard = true;
+                            discard = true;
                             dialogInterface.dismiss();
                             onBackPressed();
                         }
@@ -130,20 +125,26 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
             case R.id.img_flip:
                 img_edt.flipImageHorizontally();
                 if (imgFlip.getScaleX() == 1) {
+                    discard = false ;
                     imgFlip.setScaleX(-1);
                     imgFlip.getDrawable().setColorFilter(filter);
                 } else if (imgFlip.getScaleX() == -1) {
                     imgFlip.setScaleX(1);
+                    discard =true ;
                     imgFlip.getDrawable().setColorFilter(null);
                 }
                 break;
             case R.id.img_rotate:
                 imgRotate.setRotation(imgRotate.getRotation() - 90);
                 img_edt.rotateImage(-90);
-                if (imgRotate.getRotation() % 360 == 0)
+                if (imgRotate.getRotation() % 360 == 0) {
                     imgRotate.getDrawable().setColorFilter(null);
-                else
+                    discard =true ;
+                }
+                else{
                     imgRotate.getDrawable().setColorFilter(filter);
+                    discard = false ;
+                }
                 break;
         }
     }

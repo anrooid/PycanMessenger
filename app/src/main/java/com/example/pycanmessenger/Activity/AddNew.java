@@ -1,11 +1,11 @@
 package com.example.pycanmessenger.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pycanmessenger.R;
 
@@ -37,6 +37,10 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         Intent intent = new Intent(AddNew.this , NewChat.class);
         switch (v.getId()){
+            case R.id.txtPv :
+                Group.setOnClickListener(null); Channel.setOnClickListener(null);
+                intent.putExtra("prefixP", "Pv");
+                break;
             case R.id.txtGroup :
                 Pv.setOnClickListener(null); Channel.setOnClickListener(null);
                 intent.putExtra("prefixG", "Group");
@@ -45,10 +49,7 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
                 Pv.setOnClickListener(null); Group.setOnClickListener(null);
                 intent.putExtra("prefixC", "Channel");
                 break;
-            case R.id.txtPv :
-                Group.setOnClickListener(null); Channel.setOnClickListener(null);
-                intent.putExtra("prefixP", "Pv");
-                break;
+
         }
         startActivity(intent);
     }

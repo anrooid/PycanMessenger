@@ -12,19 +12,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.pycanmessenger.Activity.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.pycanmessenger.R;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> implements Filterable {
 
@@ -34,13 +32,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     public ChatAdapter(List<ParseObject> parseObjects, Context mContext) {
         this.mContext = mContext;
-        if (parseObjects != null ) {
             this.parseObjects = parseObjects;
             this.parseObjectsAll = new ArrayList<>(parseObjects);
-        }else  {
-            this.parseObjectsAll = new ArrayList<>();
-            this.parseObjects = new ArrayList<>();
-        }
     }
 
     @NonNull
@@ -54,13 +47,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String name = "No Name";
         ParseObject chat = parseObjects.get(position);
-        if (chat.getString("Name") == null) { // analiz name
-            Toast.makeText(mContext, "Error : No Name Found \n please check your network connection", Toast.LENGTH_SHORT).show();
-        } else {
+        if (chat.getString("Name") != null) {
             name = chat.getString("Name").trim().substring(1);
         }
         holder.getaName().setText(name);
-        if (chat.get("Descripton") == null) { // analiz description
+        if (chat.get("Descripton") == null) {
             holder.getaMessage().setText("No Chat Yet");
         } else {
             holder.getaMessage().setText(chat.getString("Descripton"));
@@ -97,17 +88,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         }
     }
 
-    //menu search
     @Override
     public int getItemCount() {
         return parseObjects.size();
     }
+
     @Override
     public Filter getFilter() {
         return filter;
-    } //Todo : check that the list is not empty !
+    }
     Filter filter = new Filter() {
-        //run on background thread
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<ParseObject> filteredList = new ArrayList<>();
@@ -129,18 +119,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             filterResults.values = filteredList;
             return filterResults;
         }
-
-        //runs on ui thread
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             parseObjects.clear();
             parseObjects.addAll((Collection<? extends ParseObject>) filterResults.values);
             notifyDataSetChanged();
-
         }
     };
 
-//mahdi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView aAvatar;

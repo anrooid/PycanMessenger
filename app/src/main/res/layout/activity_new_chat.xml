@@ -59,7 +59,7 @@
             android:ems="10"
             android:hint="Chat Name"
             android:inputType="textPersonName"
-            android:maxLength="20"
+            android:maxLength="25"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="parent"

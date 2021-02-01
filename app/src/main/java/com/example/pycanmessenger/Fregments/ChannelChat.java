@@ -1,23 +1,21 @@
 package com.example.pycanmessenger.Fregments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.TextureView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.pycanmessenger.Adapters.ChatAdapter;
 import com.example.pycanmessenger.R;
@@ -62,16 +60,14 @@ public class ChannelChat extends Fragment {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e==null){
                     mProgress.setVisibility(View.GONE);
-                    if (objects.size()>0){
-                        mAdapter = new ChatAdapter(objects,getContext());
-                    }else {
+                    if (objects.size() <= 0) {
                         // show a text to user that no chats yet !
-                        mAdapter = new ChatAdapter(null,getContext());
                         erLogo.setVisibility(View.VISIBLE);erLogo.animate().translationY(0);
                         erTitle.setVisibility(View.VISIBLE);erTitle.animate().translationY(0);
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
+                    mAdapter = new ChatAdapter(objects,getContext());
                     myRecycler.setAdapter(mAdapter);
                 }else {
                     e.printStackTrace();

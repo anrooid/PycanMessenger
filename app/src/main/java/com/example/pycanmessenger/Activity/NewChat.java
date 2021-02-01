@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,11 +15,9 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,7 +48,6 @@ public class NewChat extends AppCompatActivity {
     private CheckBox checkSeen;
     private Toolbar toolbar;
     private TextView txtseen;
-    Boolean PV, Group, Channel;
     private ImageView imgProfile, imgCamera;
     EditText edtNameChat, edtDescription;
     TextView txtCounter;
@@ -112,7 +107,7 @@ public class NewChat extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int length = s.toString().length();
-                if (length == 20) {
+                if (length == 25) {
                     vibrate();
                     Toast.makeText(NewChat.this, "Long Name !", Toast.LENGTH_SHORT).show();
                 }
@@ -121,14 +116,7 @@ public class NewChat extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                for (int i = s.length() - 1; i >= 0; i--) {
-                    if (!(s.charAt(i) + "").matches("^(?!.*[_.]{2})[\\u0600-\\u06FF\\sa-zA-Z0-9._]+$")) {
-                        vibrate();
-                        Toast.makeText(NewChat.this, "Not a valid Character ! -> " + s.toString().charAt(i), Toast.LENGTH_SHORT).show();
-                        s.delete(i, i + 1);
-                        return;
-                    }
-                }
+                // no need to be valid name more ! but you can have codes on github commit [7080817aa692584c92f9b2dc8f5e576d5ae4eaf9]
             }
         });
 
@@ -139,13 +127,10 @@ public class NewChat extends AppCompatActivity {
             String s;
             if (bundle.getString("prefixC") != null) {
                 s = bundle.getString("prefixC");
-                Channel = true;
             } else if (bundle.getString("prefixG") != null) {
                 s = bundle.getString("prefixG");
-                Group = true;
             } else {
                 s = bundle.getString("prefixP");
-                PV = true;
                 txtseen.setVisibility(View.VISIBLE);
                 checkSeen.setVisibility(View.VISIBLE);
             }
@@ -170,13 +155,13 @@ public class NewChat extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        dicard = false;
+        dicard =  false;
         super.onResume();
     }
 
     @Override
     public void onBackPressed() {
-        if (!dicard) {
+        if (!dicard&&(!edtNameChat.getText().toString().matches("")|| !edtDescription.getText().toString().matches("")|| receivedImageBitmap !=null)) {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
 
                     .setTitle(getTitle())
@@ -256,10 +241,9 @@ public class NewChat extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent = new Intent(NewChat.this, MainActivity.class);
         String name = edtNameChat.getText().toString();
         if (item.getItemId() == R.id.mnuCheck) {
-
-
             //time
             Date time = Calendar.getInstance().getTime();
             SimpleDateFormat ft = new SimpleDateFormat("hh:mm");
@@ -269,15 +253,16 @@ public class NewChat extends AppCompatActivity {
                 vibrate();
                 Toast.makeText(NewChat.this, "please set a name ! ", Toast.LENGTH_SHORT).show();
             } else {
-                if (PV) {
+                if (getTitle().toString().contains("Pv")) {
                     Chats.put("Name", "0" + edtNameChat.getText().toString());
-                } else if (Group) {
+                } else if (getTitle().toString().contains("Group")) {
                     Chats.put("Name", "1" + edtNameChat.getText().toString());
-                } else if (Channel) {
+                } else if (getTitle().toString().contains("Channel")) {
                     Chats.put("Name", "2" + edtNameChat.getText().toString());
                 }
-                Chats.put("Descripton", edtDescription.getText().toString());
-                if (PV)
+                intent.putExtra("isCreating",Chats.getString("Name"));
+                if (!edtDescription.getText().toString().matches("")) Chats.put("Descripton", edtDescription.getText().toString());
+                if (getTitle().toString().contains("Pv"))
                     Chats.put("Seen", checkSeen.isChecked());
                 if (receivedImageBitmap != null) {
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -285,22 +270,28 @@ public class NewChat extends AppCompatActivity {
                     byte[] bytes = stream.toByteArray();
                     ParseFile parseFile = new ParseFile("img.png", bytes);
                     Chats.put("Profile", parseFile);
+                    intent.putExtra("haveProf",true);
                 }
                 Chats.put("Time", ft.format(time).toString());
-                // Todo : fix the time delay for uploading profile !
-                Chats.saveInBackground(new SaveCallback() {
+                startActivity(intent);
+                Thread thread = new Thread() {
                     @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(getApplicationContext(), Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(NewChat.this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getApplicationContext(), e.getCode() + "" + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
+                    public void run() {
+                        Chats.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e == null) {
+                                    Toast.makeText(getApplicationContext(), Chats.get("Name").toString().substring(1) + "is saved successfully", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), e.getCode() + " -> " + e.getStackTrace()[0], Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
-                });
+                };
+                thread.start();
+
             }
 
         }
