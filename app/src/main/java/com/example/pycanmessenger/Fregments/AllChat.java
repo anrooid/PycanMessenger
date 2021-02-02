@@ -1,5 +1,6 @@
 package com.example.pycanmessenger.Fregments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,9 +18,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pycanmessenger.Activity.MainActivity;
+import com.example.pycanmessenger.Activity.NewChat;
 import com.example.pycanmessenger.Adapters.ChatAdapter;
+import com.example.pycanmessenger.Models.interfaces.OnItemClickListener;
 import com.example.pycanmessenger.R;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -32,14 +37,12 @@ public class AllChat extends Fragment {
     private ProgressBar aProgressBar;
     private ChatAdapter chatAdapter;
     List<ParseObject> parseObjects;
-    private ChatAdapter.OnItemClickListener listener;
 
     //errors
     private TextView erTitle , erText , erHelp ;
     private ImageView erLogo;
 
-    public AllChat(ChatAdapter.OnItemClickListener listener){
-    this.listener = listener;
+    public AllChat(){
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +69,17 @@ public class AllChat extends Fragment {
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-                    aAdapter = new ChatAdapter(objects,getContext() , listener);
+                    aAdapter = new ChatAdapter(objects, getContext(), new OnItemClickListener() { // Todo : implement log & on click
+                        @Override
+                        public boolean onItemClick(ParseObject parseObject) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onLongItemClick(ParseObject parseObject) {
+                            return false;
+                        }
+                    });
                     allRecycler.setAdapter(aAdapter);
                 }else {
                     e.printStackTrace();
@@ -102,6 +115,24 @@ public class AllChat extends Fragment {
     public void onStart() {
         setHasOptionsMenu(true);
         super.onStart();
+    }
+
+    private void delete(ParseObject parseObject) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Chats");
+        query.getInBackground(parseObject.getObjectId(), new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (e ==null){
+                    object.deleteInBackground();
+                    // delete also in RV
+                }
+            }
+        });
+    }
+    private void edit(ParseObject parseObject) {
+        Intent intent = new Intent(getContext() , NewChat.class);
+        intent.putExtra("open for edit" ,parseObject );
+        startActivity(intent);
     }
 }
 

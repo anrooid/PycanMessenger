@@ -1,7 +1,8 @@
 package com.example.pycanmessenger.Models;
 
-import com.parse.Parse;
 import android.app.Application;
+
+import com.parse.Parse;
 
 public class App extends Application {
     @Override

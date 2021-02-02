@@ -13,15 +13,17 @@
         android:layout_height="0dp"
         app:cropAspectRatioX="5"
         app:cropAspectRatioY="5"
-        app:cropFixAspectRatio="true"
         app:cropAutoZoomEnabled="true"
+        app:cropFixAspectRatio="true"
 
         app:cropScaleType="centerInside"
         app:cropShape="oval"
-        app:layout_constraintBottom_toBottomOf="@+id/gradiant_back"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.theartofdev.edmodo.cropper.CropImageView>
 
     <ImageView
         android:id="@+id/gradiant_back"
@@ -48,42 +50,42 @@
 
     <ImageView
         android:id="@+id/img_flip"
-        android:padding="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginLeft="64dp"
+        android:background="@drawable/round_back"
+        android:padding="7dp"
         app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/img_rotate"
         app:layout_constraintTop_toTopOf="@id/gradiant_back"
-        app:srcCompat="@drawable/ic_flip"
-         />
+        app:srcCompat="@drawable/ic_flip" />
 
 
     <ImageView
         android:id="@+id/img_rotate"
-        android:padding="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_rotate"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="64dp"
+        android:background="@drawable/round_back"
+        android:padding="7dp"
+        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
         app:layout_constraintLeft_toRightOf="@id/img_flip"
         app:layout_constraintRight_toLeftOf="@id/img_filter"
         app:layout_constraintTop_toTopOf="@id/gradiant_back"
-        android:layout_marginLeft="64dp"
-        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
-         />
+        app:srcCompat="@drawable/ic_rotate" />
 
     <ImageView
         android:id="@+id/img_filter"
-        android:padding="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_filter"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="64dp"
+        android:background="@drawable/round_back"
+        android:padding="7dp"
+        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
         app:layout_constraintLeft_toRightOf="@id/img_rotate"
         app:layout_constraintTop_toTopOf="@id/gradiant_back"
-        android:layout_marginLeft="64dp"
-        app:layout_constraintBottom_toBottomOf="@id/gradiant_back"
-         />
+        app:srcCompat="@drawable/ic_filter" />
 
     <TextView
         android:id="@+id/txtPath"
@@ -93,11 +95,24 @@
         android:gravity="fill_horizontal"
         android:paddingLeft="10dp"
         android:paddingTop="15dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="15dp"
+        android:paddingRight="48dp"
+        android:paddingBottom="20dp"
         android:text="Editor"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/changeImg"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_back"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPath"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/img_edit"
+        app:srcCompat="@drawable/ic_edit_image" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

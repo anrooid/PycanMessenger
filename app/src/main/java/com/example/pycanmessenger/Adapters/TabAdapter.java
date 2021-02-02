@@ -10,12 +10,11 @@ import com.example.pycanmessenger.Fregments.AllChat;
 import com.example.pycanmessenger.Fregments.ChannelChat;
 import com.example.pycanmessenger.Fregments.GroupChat;
 import com.example.pycanmessenger.Fregments.PvChat;
+import com.example.pycanmessenger.Models.interfaces.OnItemClickListener;
 
 public class TabAdapter extends FragmentPagerAdapter {
-    private ChatAdapter.OnItemClickListener listener;
-    public TabAdapter(@NonNull FragmentManager fm ,  ChatAdapter.OnItemClickListener listener) {
+    public TabAdapter(@NonNull FragmentManager fm ) {
         super(fm);
-        this.listener = listener;
     }
 
     @NonNull
@@ -23,16 +22,16 @@ public class TabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                AllChat allChat = new AllChat(listener);
+                AllChat allChat = new AllChat();
                 return allChat;
             case 1:
-                PvChat pvChat = new PvChat(listener);
+                PvChat pvChat = new PvChat();
                 return pvChat;
             case 2:
-                GroupChat groupChat = new GroupChat(listener);
+                GroupChat groupChat = new GroupChat();
                 return groupChat;
             case 3:
-                ChannelChat channelChat = new ChannelChat(listener);
+                ChannelChat channelChat = new ChannelChat();
                 return channelChat;
             default:
                 return null;

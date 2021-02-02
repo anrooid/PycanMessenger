@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pycanmessenger.Models.interfaces.OnItemClickListener;
 import com.example.pycanmessenger.R;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -32,12 +33,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private Context mContext;
     private OnItemClickListener mListener;
 
-    public interface OnItemClickListener {
-        public void onItemClick(ParseObject parseObject);
-
-        public void onLongItemClick(ParseObject parseObject);
-
-    }
 
 
     public ChatAdapter(List<ParseObject> parseObjects, Context mContext , OnItemClickListener listener) {
@@ -46,7 +41,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         this.parseObjectsAll = new ArrayList<>(parseObjects);
         this.mListener = listener;
     }
-
+    private void deleteItem(int position) {
+        parseObjects.remove(position);
+        parseObjectsAll.remove(parseObjects.get(position));
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, parseObjects.size());
+    }
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,7 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             name = chat.getString("Name").trim().substring(1);
         }
         holder.getaName().setText(name);
-        if (chat.get("Descripton") == null) {
+        if (chat.get("Descripton") == null || chat.getString("Descripton").matches("") ) {
             holder.getaMessage().setText("No Chat Yet");
         } else {
             holder.getaMessage().setText(chat.getString("Descripton"));
@@ -195,6 +195,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                     return true;
                 }
             });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(parseObjects.get(position));
+
+                        }
+                    }
+                }
+            });
+
         }
     }
 }

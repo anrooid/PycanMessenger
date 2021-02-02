@@ -7,12 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.example.pycanmessenger.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.parse.ParseObject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 public class BottomSheetDialog extends BottomSheetDialogFragment {
     private BottomSheetListener mListener;
@@ -22,6 +22,7 @@ public class BottomSheetDialog extends BottomSheetDialogFragment {
         this.mListener = mListener;
         this.parseObject = parseObject;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
