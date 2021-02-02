@@ -3,17 +3,25 @@ package com.example.pycanmessenger.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.pycanmessenger.Adapters.ChatAdapter;
 import com.example.pycanmessenger.Adapters.TabAdapter;
+import com.example.pycanmessenger.Models.BottomSheetDialog;
 import com.example.pycanmessenger.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ChatAdapter.OnItemClickListener , com.example.pycanmessenger.Models.BottomSheetDialog.BottomSheetListener {
 
     private FloatingActionButton fab;
     private Toolbar toolbar;
@@ -32,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         viewPager = findViewById(R.id.viewPager);
-        tabAdapter = new TabAdapter(getSupportFragmentManager());
+        tabAdapter = new TabAdapter(getSupportFragmentManager() , this);
 
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager, false);
@@ -80,5 +88,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(ParseObject parseObject) {
 
+    }
+
+    @Override
+    public void onLongItemClick(ParseObject parseObject) {
+        //BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        com.example.pycanmessenger.Models.BottomSheetDialog bottomSheetDialog= new BottomSheetDialog(this ,parseObject);
+        bottomSheetDialog.show(getSupportFragmentManager(),"BottomSheet");
+    }
+
+
+    @Override
+    public void onButtonClicked(int a , ParseObject parseObject) {
+        switch (a){
+            case 1:
+                edit(parseObject);
+                break;
+            case 2:
+                delete(parseObject);
+                break;
+            default:
+        }
+
+    }
+
+    private void delete(ParseObject parseObject) {
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Chats");
+
+        query.getInBackground(parseObject.getObjectId(), new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (e ==null){
+                    object.deleteInBackground();
+                }
+            }
+        });
+    }
+
+    private void edit(ParseObject parseObject) {
+        Intent intent = new Intent(MainActivity.this , NewChat.class);
+        intent.putExtra("open for edit" ,parseObject );
+        startActivity(intent);
+
+    }
 }

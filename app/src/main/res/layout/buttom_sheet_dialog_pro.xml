@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_design"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.1"
+        app:srcCompat="@android:drawable/button_onoff_indicator_off"
+        app:tint="@color/dark" />
+
+    <TextView
+        android:id="@+id/txtNewPro"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text="new profile image"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtEditPro"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text="edit profile image"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtRemovePro"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:gravity="center|left"
+        android:text="remove profile image"
+        android:textSize="16sp" />
+
+</LinearLayout>

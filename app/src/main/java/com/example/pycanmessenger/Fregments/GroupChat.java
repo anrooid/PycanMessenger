@@ -31,13 +31,14 @@ public class GroupChat extends Fragment {
     private RecyclerView gRecyclerView;
     private ProgressBar gProgressBar;
     private ChatAdapter gAdapter;
+    private ChatAdapter.OnItemClickListener listener;
 
     //errors
     private TextView erTitle , erText , erHelp ;
     private ImageView erLogo;
 
-    public GroupChat(){
-
+    public GroupChat( ChatAdapter.OnItemClickListener listener){
+        this.listener = listener;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +65,7 @@ public class GroupChat extends Fragment {
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-                    gAdapter= new ChatAdapter(objects,getContext());
+                    gAdapter= new ChatAdapter(objects,getContext() , listener);
                     gRecyclerView.setAdapter(gAdapter);
                 }else {
                     e.printStackTrace();                }

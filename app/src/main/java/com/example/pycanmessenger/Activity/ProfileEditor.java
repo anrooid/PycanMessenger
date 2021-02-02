@@ -69,9 +69,8 @@ public class ProfileEditor extends AppCompatActivity implements View.OnClickList
                 uri = (Uri) bundle.get("Uri");
                 img_edt.setImageUriAsync(uri);
                 StringBuilder path = new StringBuilder("");
-                String[] pathArray = uri.getEncodedPath().split("%2F");
+                String[] pathArray = uri.getPath().split("/");
                 for (int i = pathArray.length - 3; i < pathArray.length; i++) {
-                    pathArray[i] = pathArray[i].replaceAll("%20"," ");
                     path.append(pathArray[i]);
                     if (i < pathArray.length - 1) path.append("/");
                 }

@@ -32,13 +32,14 @@ public class AllChat extends Fragment {
     private ProgressBar aProgressBar;
     private ChatAdapter chatAdapter;
     List<ParseObject> parseObjects;
+    private ChatAdapter.OnItemClickListener listener;
 
     //errors
     private TextView erTitle , erText , erHelp ;
     private ImageView erLogo;
 
-    public AllChat(){
-
+    public AllChat(ChatAdapter.OnItemClickListener listener){
+    this.listener = listener;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +66,7 @@ public class AllChat extends Fragment {
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-                    aAdapter = new ChatAdapter(objects,getContext());
+                    aAdapter = new ChatAdapter(objects,getContext() , listener);
                     allRecycler.setAdapter(aAdapter);
                 }else {
                     e.printStackTrace();

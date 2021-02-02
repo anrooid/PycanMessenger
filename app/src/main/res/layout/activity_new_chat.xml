@@ -129,15 +129,17 @@
                 android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
-<!--        <ProgressBar-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:elevation="5dp"-->
-<!--            android:progress="0"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/cardView"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/cardView"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/cardView"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/cardView" />-->
+        <!--        <ProgressBar-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:elevation="5dp"-->
+        <!--            android:progress="0"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/cardView"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/cardView"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/cardView"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/cardView" />-->
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>
