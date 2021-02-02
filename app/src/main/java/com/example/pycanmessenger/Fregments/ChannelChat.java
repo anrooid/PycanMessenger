@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,13 +32,14 @@ public class ChannelChat extends Fragment {
     private RecyclerView myRecycler;
     private ChatAdapter mAdapter;
     private ProgressBar mProgress;
+    private ChatAdapter.OnItemClickListener listener;
 
     //errors
     private TextView erTitle , erText , erHelp ;
     private ImageView erLogo;
 
-    public ChannelChat(){
-
+    public ChannelChat(ChatAdapter.OnItemClickListener listener){
+        this.listener = listener;
     }
 
 
@@ -67,7 +69,7 @@ public class ChannelChat extends Fragment {
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-                    mAdapter = new ChatAdapter(objects,getContext());
+                    mAdapter = new ChatAdapter(objects,getContext(), listener);
                     myRecycler.setAdapter(mAdapter);
                 }else {
                     e.printStackTrace();

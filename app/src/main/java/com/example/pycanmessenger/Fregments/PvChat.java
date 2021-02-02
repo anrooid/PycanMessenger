@@ -30,13 +30,14 @@ public class PvChat extends Fragment {
     private RecyclerView pRecycle_View;
     private ProgressBar pProgressBar;
     private ChatAdapter pChatAdapter;
+    private ChatAdapter.OnItemClickListener listener;
 
     //errors
     private TextView erTitle , erText , erHelp ;
     private ImageView erLogo;
 
-    public PvChat(){
-
+    public PvChat(ChatAdapter.OnItemClickListener listener){
+        this.listener = listener;
     }
 
     @Override
@@ -65,7 +66,7 @@ public class PvChat extends Fragment {
                         erText.setVisibility(View.VISIBLE);erText.animate().translationY(0);
                         erHelp.setVisibility(View.VISIBLE);erHelp.animate().translationY(0);
                     }
-                    pChatAdapter= new ChatAdapter(objects,getContext());
+                    pChatAdapter= new ChatAdapter(objects,getContext() , listener);
                     pRecycle_View.setAdapter(pChatAdapter);
                 }else {
                     e.printStackTrace();
