@@ -9,15 +9,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.pycanmessenger.Adapters.TabAdapter;
-import com.example.pycanmessenger.Models.BottomSheetDialog;
-import com.example.pycanmessenger.Models.interfaces.OnItemClickListener;
 import com.example.pycanmessenger.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 public class MainActivity extends AppCompatActivity  {
 

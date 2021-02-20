@@ -29,7 +29,9 @@ public class AddNew extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onResume() {
-        Pv.setOnClickListener(this); Group.setOnClickListener(this); Channel.setOnClickListener(this);
+        Pv.setOnClickListener(this);
+        Group.setOnClickListener(this);
+        Channel.setOnClickListener(this);
         super.onResume();
     }
 
